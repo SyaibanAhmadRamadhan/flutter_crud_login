@@ -1,0 +1,186 @@
+// ignore_for_file: file_names, use_key_in_widget_constructors, library_private_types_in_public_api, prefer_const_constructors, avoid_web_libraries_in_flutter, unused_import, avoid_unnecessary_containers, unnecessary_new
+
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_crud/models/obatModel.dart';
+import 'package:flutter_application_crud/services/obatServices.dart';
+import 'package:flutter_application_crud/ui/createObat.dart';
+import 'package:flutter_application_crud/ui/detailObatPage.dart';
+import 'package:flutter_application_crud/ui/searchObatPage.dart';
+import 'package:flutter_application_crud/ui/updateObat.dart';
+
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  late Future listObat;
+  List<obatModel> listObatList = [];
+  obatService repository = obatService();
+
+  bool isSearching = false;
+  TextEditingController searchText = TextEditingController();
+
+  void getobatService() {
+    listObat = repository.getobatService();
+    listObat.then((value) {
+      setState(() {
+        listObatList = value;
+      });
+    });
+  }
+
+  FutureOr onGoBack(dynamic value) {
+    getobatService();
+  }
+
+  void navigateAddObat() {
+    Route route = MaterialPageRoute(builder: (context) => CreateObat());
+    Navigator.push(context, route).then((onGoBack));
+  }
+
+  @override
+  void initState() {
+    getobatService();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: !isSearching
+              ? Text(
+                  'DAFTAR OBAT',
+                  style: TextStyle(color: Colors.black, fontSize: 26),
+                )
+              : TextField(
+                  controller: searchText,
+                  style: TextStyle(color: Colors.black, fontSize: 26),
+                  decoration: InputDecoration(
+                      hintText: "Pencarian",
+                      hintStyle: TextStyle(color: Colors.grey)),
+                  onSubmitted: (value) {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            SearchObatPage(keyword: searchText.text)));
+                  },
+                ),
+          backgroundColor: Colors.white,
+          elevation: 0,
+          iconTheme: IconThemeData(color: Colors.black),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    isSearching = !isSearching;
+                  });
+                },
+                icon: !isSearching
+                    ? Icon(
+                        Icons.search,
+                        color: Colors.black,
+                      )
+                    : Icon(
+                        Icons.cancel,
+                        color: Colors.red,
+                      )),
+          ],
+        ),
+        body: listObatList.isEmpty
+            ? Center(
+                child: CircularProgressIndicator(color: Colors.black),
+              )
+            : ListView.builder(itemBuilder: (context, index) {
+                return Container(
+                  padding: EdgeInsets.all(5),
+                  child: ListView.builder(
+                    itemCount: listObatList.length,
+                    itemBuilder: (BuildContext context, int index) =>
+                        Column(children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            new MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  DetailObat(obat: listObatList[index]),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(5),
+                          margin: EdgeInsets.only(top: 100),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(3),
+                            color: Colors.white,
+                            // border: Border.all(width: 1,color: listObatList[index].status=="admin"?Colors.green:Colors.orange)
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              // Image(image: image)
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 5, right: 5),
+                                child: Column(
+                                  children: [
+                                    Text(listObatList[index].nama),
+                                    Text(
+                                      listObatList[index].deskripsi,
+                                      style: TextStyle(fontSize: 8),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ]),
+                  ),
+                  // onTap: () {
+                  //   Navigator.of(context).push(
+                  //     new MaterialPageRoute(
+                  //       builder: (BuildContext context) =>
+                  //           DetailObat(obat: listObatList[index]),
+                  //     ),
+                  //   );
+                  // },
+                  //   child: Container(
+                  //     margin: EdgeInsets.all(10),
+                  //     child: Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         // Image.network(obatService.getUrl() +
+                  //         //     "/" +
+                  //         //     listObatList[index].foto),
+                  //         Text(
+                  //           listObatList[index].nama,
+                  //           style: TextStyle(
+                  //               fontWeight: FontWeight.w700, fontSize: 20),
+                  //         )
+                  //       ],
+                  //     ),
+                  //   ),
+                );
+              } // );
+                )
+        // separatorBuilder: (context, index) {
+        //   return Divider();
+        // },
+        // itemCount: listObatList.length,
+
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () {
+        //     navigateAddObat();
+        //   },
+        //   tooltip: 'Tambah Data',
+        //   backgroundColor: Colors.black,
+        //   child: Icon(Icons.add),
+        // ),
+        );
+  }
+}
