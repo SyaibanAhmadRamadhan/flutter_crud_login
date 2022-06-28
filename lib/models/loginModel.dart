@@ -51,6 +51,9 @@ class loginModel {
   }
   factory loginModel.error(Map<String, dynamic> json) {
     return loginModel(
-        code: json['code'], status: json['status'], message: json['data']);
+      code: json['code'],
+      status: json['status'],
+      message: json['data'],
+    );
   }
 }

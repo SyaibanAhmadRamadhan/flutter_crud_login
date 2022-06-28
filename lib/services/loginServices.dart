@@ -2,8 +2,8 @@
 
 import 'dart:convert';
 import 'package:flutter_application_crud/models/loginModel.dart';
-import 'package:flutter_application_crud/services/Api.dart';
-import 'package:flutter_application_crud/services/apiUrl.dart';
+import 'package:flutter_application_crud/api/Api.dart';
+import 'package:flutter_application_crud/api/apiUrl.dart';
 
 class loginService {
   static Future<loginModel> login({String? email, String? password}) async {

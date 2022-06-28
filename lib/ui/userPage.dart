@@ -1,9 +1,10 @@
 // ignore_for_file: file_names, camel_case_types, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_crud/ui/homePage.dart';
 // import 'package:flutter/src/foundation/key.dart';
 // import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_application_crud/ui/obatPage.dart';
+// import 'package:flutter_application_crud/ui/obatPage.dart';
 
 class userPage extends StatefulWidget {
   const userPage({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class _userPageState extends State<userPage> {
           switch (i) {
             case 0:
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (BuildContext context) => obatPage()));
+                  builder: (BuildContext context) => HomePages()));
               break;
             case 1:
               Navigator.of(context).pushReplacement(MaterialPageRoute(

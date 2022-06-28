@@ -2,10 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_crud/services/userInfo.dart';
+import 'package:flutter_application_crud/ui/homePage.dart';
 // import 'package:flutter_application_crud/ui/createObat.dart';
 // import 'package:flutter_application_crud/ui/homePage.dart';
 import 'package:flutter_application_crud/ui/loginPage.dart';
-import 'package:flutter_application_crud/ui/obatPage.dart';
+// import 'package:flutter_application_crud/ui/obatPage.dart';
 // import 'package:flutter_application_crud/ui/obatPage.dart';
 
 void main() {
@@ -37,7 +38,7 @@ class _MyAppState extends State<MyApp> {
       });
     } else {
       setState(() {
-        page = obatPage();
+        page = HomePages();
       });
     }
   }

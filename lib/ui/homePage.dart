@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, unused_local_variable
+// ignore_for_file: file_names, unused_local_variable, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_crud/services/userInfo.dart';
@@ -53,11 +53,11 @@ class _HomePagesState extends State<HomePages> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              'images/tokokitalogo.png',
-              width: 200,
-              height: 200,
-            ),
+            // Image.asset(
+            //   'images/tokokitalogo.png',
+            //   width: 200,
+            //   height: 200,
+            // ),
             const Text(
               'Selamat Datang',
               style: TextStyle(

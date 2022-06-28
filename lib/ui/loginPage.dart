@@ -1,10 +1,11 @@
-// ignore_for_file: file_names, unused_import, use_build_context_synchronously, prefer_const_constructors
+// ignore_for_file: file_names, unused_import, use_build_context_synchronously, prefer_const_constructors, unnecessary_new
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_crud/services/loginServices.dart';
 import 'package:flutter_application_crud/services/userInfo.dart';
 import 'package:flutter_application_crud/ui/homePage.dart';
-import 'package:flutter_application_crud/ui/obatPage.dart';
+// import 'package:flutter_application_crud/ui/obatPage.dart';
+import 'package:flutter_application_crud/ui/registerPage.dart';
 import 'package:flutter_application_crud/widgets/warning_dialog.dart';
 
 class LoginPage extends StatefulWidget {
@@ -79,7 +80,12 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                               InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                      new MaterialPageRoute(
+                                          builder: (context) =>
+                                              registerPage()));
+                                },
                                 child: const Text(
                                   "Daftar",
                                   style: TextStyle(
@@ -189,22 +195,12 @@ class _LoginPageState extends State<LoginPage> {
           await UserInfo().setRole(value.role.toString());
           await UserInfo().setToken(value.token.toString());
           await UserInfo().setUserID(value.id!);
-          if (value.role == 'user') {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => HomePages(),
-              ),
-            );
-          }
-          if (value.role == 'admin') {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => obatPage(),
-              ),
-            );
-          }
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomePages(),
+            ),
+          );
         }
       },
       onError: (error) {
@@ -222,20 +218,20 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  Widget menuRegistrasi() {
-    return Center(
-      child: InkWell(
-        child: const Text(
-          "Registrasi?",
-          style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
-        ),
-        onTap: () {
-          // Navigator.push(context,
-          //     MaterialPageRoute(builder: (context) => const RegistrasiPage()));
-        },
-      ),
-    );
-  }
+  // Widget menuRegistrasi() {
+  //   return Center(
+  //     child: InkWell(
+  //       child: const Text(
+  //         "Registrasi?",
+  //         style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+  //       ),
+  //       onTap: () {
+  //         // Navigator.push(context,
+  //         //     MaterialPageRoute(builder: (context) => const RegistrasiPage()));
+  //       },
+  //     ),
+  //   );
+  // }
 
   Widget _loginButton() {
     return StreamBuilder<bool>(
