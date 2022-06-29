@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, unused_import, use_build_context_synchronously, prefer_const_constructors, unnecessary_new
+// ignore_for_file: file_names, unused_import, use_build_context_synchronously, prefer_const_constructors, unnecessary_new, import_of_legacy_library_into_null_safe
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_crud/services/loginServices.dart';
@@ -7,6 +7,7 @@ import 'package:flutter_application_crud/ui/homePage.dart';
 // import 'package:flutter_application_crud/ui/obatPage.dart';
 import 'package:flutter_application_crud/ui/registerPage.dart';
 import 'package:flutter_application_crud/widgets/warning_dialog.dart';
+import 'package:email_validator/email_validator.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -115,32 +116,28 @@ class _LoginPageState extends State<LoginPage> {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: TextFormField(
-        style: const TextStyle(color: Colors.white),
-        decoration: const InputDecoration(
-          prefixIcon: Icon(
-            Icons.email,
-            color: Colors.white,
-          ),
-          labelText: 'Email',
-          labelStyle: TextStyle(color: Colors.white),
-          // underline
+          style: const TextStyle(color: Colors.white),
+          decoration: const InputDecoration(
+            prefixIcon: Icon(
+              Icons.email,
+              color: Colors.white,
+            ),
+            labelText: 'Email',
+            labelStyle: TextStyle(color: Colors.white),
+            // underline
 
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+            ),
           ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
-          ),
-        ),
-        obscureText: false,
-        controller: _emailTextboxController,
-        validator: (value) {
-          if (value!.isEmpty) {
-            return 'email harus diisi';
-          }
-          return null;
-        },
-      ),
+          obscureText: false,
+          controller: _emailTextboxController,
+          validator: (value) => EmailValidator.validate(value)
+              ? null
+              : "isi alamat email dengan benar"),
     );
   }
 

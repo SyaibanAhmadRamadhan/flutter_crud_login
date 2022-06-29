@@ -27,6 +27,10 @@ class registerService {
     };
     var response = await Api().post(api_url, body);
     var var_json = json.decode(response.body);
-    return registerModel.fromJson(var_json);
+    if (var_json['code'] == 200) {
+      return registerModel.fromJson(var_json);
+    } else {
+      return registerModel.error(var_json);
+    }
   }
 }

@@ -3,11 +3,19 @@
 class registerModel {
   int? code;
   bool? status;
-  String? data;
-  registerModel({this.code, this.status, this.data});
+  String? message;
+  registerModel({this.code, this.status, this.message});
 
   factory registerModel.fromJson(Map<String, dynamic> json) {
     return registerModel(
-        code: json['code'], status: json['status'], data: json['data']);
+        code: json['code'], status: json['status'], message: json['data']);
+  }
+
+  factory registerModel.error(Map<String, dynamic> json) {
+    return registerModel(
+      code: json['code'],
+      status: json['status'],
+      message: json['data'],
+    );
   }
 }
