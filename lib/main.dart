@@ -1,13 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+// import 'package:flutter_application_crud/models/loginModel.dart';
 import 'package:flutter_application_crud/services/userInfo.dart';
 import 'package:flutter_application_crud/ui/homePage.dart';
-// import 'package:flutter_application_crud/ui/createObat.dart';
-// import 'package:flutter_application_crud/ui/homePage.dart';
 import 'package:flutter_application_crud/ui/loginPage.dart';
-// import 'package:flutter_application_crud/ui/obatPage.dart';
-// import 'package:flutter_application_crud/ui/obatPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,11 +31,11 @@ class _MyAppState extends State<MyApp> {
     var token = await UserInfo().getToken();
     if (token != null) {
       setState(() {
-        page = LoginPage();
+        page = const HomePages();
       });
     } else {
       setState(() {
-        page = HomePages();
+        page = const LoginPage();
       });
     }
   }

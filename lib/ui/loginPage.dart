@@ -6,6 +6,7 @@ import 'package:flutter_application_crud/services/userInfo.dart';
 import 'package:flutter_application_crud/ui/homePage.dart';
 // import 'package:flutter_application_crud/ui/obatPage.dart';
 import 'package:flutter_application_crud/ui/registerPage.dart';
+import 'package:flutter_application_crud/ui/userPage.dart';
 import 'package:flutter_application_crud/widgets/warning_dialog.dart';
 import 'package:email_validator/email_validator.dart';
 
@@ -195,7 +196,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => const HomePages(),
+              builder: (context) => const userPage(),
             ),
           );
         }

@@ -6,4 +6,8 @@ class apiUrl {
   static const String baseUrl = 'http://192.168.43.220:8000';
   static const String login = '$baseUrl/login';
   static const String register = '$baseUrl/register';
+
+  static String getUserDetail(int id) {
+    return '$baseUrl/showdetailuser/$id';
+  }
 }
