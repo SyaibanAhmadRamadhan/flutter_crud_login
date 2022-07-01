@@ -31,8 +31,6 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
   final ImagePicker _picker = ImagePicker();
   bool imageUpdate = false;
   late Uint8List imagepath;
-  // late Uint8List imagepath;
-  // late Uint8List decodedbytes;
   String base64string = '';
   String imagefile = '';
   late String _role = 'member';
