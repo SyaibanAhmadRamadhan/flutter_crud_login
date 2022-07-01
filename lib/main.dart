@@ -3,8 +3,9 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter_application_crud/models/loginModel.dart';
 import 'package:flutter_application_crud/services/userInfo.dart';
-import 'package:flutter_application_crud/ui/homePage.dart';
+import 'package:flutter_application_crud/ui/adminPage.dart';
 import 'package:flutter_application_crud/ui/loginPage.dart';
+import 'package:flutter_application_crud/ui/userPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,9 +30,15 @@ class _MyAppState extends State<MyApp> {
 
   void isLogin() async {
     var token = await UserInfo().getToken();
+    var role = await UserInfo().getRole();
     if (token != null) {
       setState(() {
-        page = const HomePages();
+        if (role == 'member') {
+          page = userPage();
+        }
+        if (role == 'admin') {
+          page = adminPage();
+        }
       });
     } else {
       setState(() {

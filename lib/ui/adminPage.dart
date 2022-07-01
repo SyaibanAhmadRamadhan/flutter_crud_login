@@ -6,19 +6,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_crud/models/userModel.dart';
 import 'package:flutter_application_crud/services/userInfo.dart';
 import 'package:flutter_application_crud/services/userService.dart';
+import 'package:flutter_application_crud/ui/crudObat/readObatPage.dart';
 import 'package:flutter_application_crud/ui/loginPage.dart';
-import 'package:flutter_application_crud/widgets/bottomBar.dart';
+import 'package:flutter_application_crud/ui/rudUser/readUserPage.dart';
 
-class userPage extends StatefulWidget {
-  const userPage({Key? key}) : super(key: key);
+class adminPage extends StatefulWidget {
+  const adminPage({Key? key}) : super(key: key);
 
   @override
-  State<userPage> createState() => _userPageState();
+  State<adminPage> createState() => _adminPageState();
 }
 
-class _userPageState extends State<userPage> {
+class _adminPageState extends State<adminPage> {
   Widget page = const CircularProgressIndicator();
-  String roleUser = 'member';
   int id = 1;
   String? role;
   String rolee = "member";
@@ -33,7 +33,7 @@ class _userPageState extends State<userPage> {
     var token = await UserInfo().getToken();
     if (token != null) {
       setState(() {
-        page = const userPage();
+        page = const adminPage();
       });
     } else {
       setState(() {
@@ -58,25 +58,53 @@ class _userPageState extends State<userPage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("profile")),
-        body: Card(
-          margin: const EdgeInsets.all(16),
-          child: Container(
-            alignment: Alignment.center,
-            child: FutureBuilder<userModel>(
-                future: userService.getUserDetail(id),
-                builder: (context, snapshot) {
-                  return snapshot.hasData
-                      ? MyProfile(
-                          data: snapshot.data,
-                        )
-                      : const Center(
-                          child: CircularProgressIndicator(color: Colors.black),
-                        );
-                }),
-          ),
+      appBar: AppBar(title: const Text("profile")),
+      body: Card(
+        margin: const EdgeInsets.all(16),
+        child: Container(
+          alignment: Alignment.center,
+          child: FutureBuilder<userModel>(
+              future: userService.getUserDetail(id),
+              builder: (context, snapshot) {
+                return snapshot.hasData
+                    ? MyProfile(
+                        data: snapshot.data,
+                      )
+                    : const Center(
+                        child: CircularProgressIndicator(color: Colors.black),
+                      );
+              }),
         ),
-        bottomNavigationBar: bottomBarUser(1, context));
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: 1,
+        onTap: (i) async {
+          switch (i) {
+            case 0:
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (BuildContext context) => const readObatPage()));
+              break;
+            case 1:
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (BuildContext context) => const adminPage()));
+              break;
+            case 2:
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (BuildContext context) => const readUserPage()));
+              break;
+            default:
+          }
+        },
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'obat'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.supervised_user_circle), label: 'profile'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.supervised_user_circle), label: 'user')
+        ],
+      ),
+    );
   }
 }
 

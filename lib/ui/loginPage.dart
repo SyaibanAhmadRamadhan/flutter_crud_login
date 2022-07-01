@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_crud/services/loginServices.dart';
 import 'package:flutter_application_crud/services/userInfo.dart';
+import 'package:flutter_application_crud/ui/adminPage.dart';
+import 'package:flutter_application_crud/ui/crudObat/readObatPage.dart';
 import 'package:flutter_application_crud/ui/homePage.dart';
 // import 'package:flutter_application_crud/ui/obatPage.dart';
 import 'package:flutter_application_crud/ui/registerPage.dart';
@@ -193,12 +195,22 @@ class _LoginPageState extends State<LoginPage> {
           await UserInfo().setRole(value.role.toString());
           await UserInfo().setToken(value.token.toString());
           await UserInfo().setUserID(value.id!);
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const userPage(),
-            ),
-          );
+          if (value.role == 'member') {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const userPage(),
+              ),
+            );
+          }
+          if (value.role == 'admin') {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => adminPage(),
+              ),
+            );
+          }
         }
       },
       onError: (error) {
