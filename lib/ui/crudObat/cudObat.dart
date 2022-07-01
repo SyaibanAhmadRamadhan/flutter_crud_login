@@ -32,21 +32,23 @@ class _createObatPageState extends State<createObatPage> {
   bool _isUpdate = false;
   final ImagePicker _picker = ImagePicker();
   bool imageUpdate = false;
-  // late Uint8List imagepath;
-  String imagepath = '';
+  // List<int> byteList = [0, 2, 5, 7, 42, 255];
+  Uint8List imagepath = Uint8List(0);
   String base64string = '';
+  String imagefile = '';
+  bool imagestatus = false;
 
   Future openImage() async {
     try {
       var pickedFile = await _picker.pickImage(source: ImageSource.gallery);
       //you can use ImageCourse.camera for Camera capture
       if (pickedFile != null) {
-        imagepath = pickedFile.path;
+        imagefile = pickedFile.path;
 
-        File imagefile = File(imagepath); //convert Path to File
-        Uint8List imagebytes = await imagefile.readAsBytes();
+        File imagefile2 = File(imagefile); //convert Path to File
+        Uint8List imagebytes = await imagefile2.readAsBytes();
         base64string = base64.encode(imagebytes);
-        // Uint8List decodedbytes = base64.decode(base64string);
+        imagepath = base64.decode(base64string);
         //decode base64 stirng to bytes
 
         setState(() {});
@@ -60,10 +62,6 @@ class _createObatPageState extends State<createObatPage> {
 
   @override
   void initState() {
-    // nama = TextEditingController();
-    // jenis = TextEditingController();
-    // dosis = TextEditingController();
-    // deskripsi = TextEditingController();
     if (widget.obat.id != 0) {
       id = widget.obat.id;
       nama = TextEditingController(text: widget.obat.nama);
@@ -71,7 +69,8 @@ class _createObatPageState extends State<createObatPage> {
       dosis = TextEditingController(text: widget.obat.dosis);
       deskripsi = TextEditingController(text: widget.obat.deskripsi);
       _isUpdate = true;
-      // imagepath = base64Decode(widget.obat.foto);
+      imageUpdate = true;
+      imagepath = base64Decode(widget.obat.foto);
     }
     super.initState();
   }
@@ -104,21 +103,44 @@ class _createObatPageState extends State<createObatPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Flexible(
-                          child: imagepath != ''
-                              ? GestureDetector(
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(8),
-                                      child: Image.file(
-                                        File(imagepath),
-                                        fit: BoxFit.fitHeight,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        height:
-                                            MediaQuery.of(context).size.height /
+                      imageUpdate
+                          ? Flexible(
+                              child: !imagestatus
+                                  ? GestureDetector(
+                                      child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          child: Image.memory(
+                                            (imagepath),
+                                            fit: BoxFit.fitHeight,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height /
                                                 1,
-                                      )))
-                              : const Center(child: Text("masukan gambar")))
+                                          )))
+                                  : const Center(
+                                      child: Text("masukansss gambar")))
+                          : Flexible(
+                              child: imagefile != ''
+                                  ? GestureDetector(
+                                      child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          child: Image.file(
+                                            File(imagefile),
+                                            fit: BoxFit.fitHeight,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height /
+                                                1,
+                                          )))
+                                  : const Center(child: Text("masukan gambar")))
                     ],
                   ),
                 ),
@@ -216,7 +238,7 @@ class _createObatPageState extends State<createObatPage> {
     // remove dot from string
     createProduk.deskripsi = deskripsi.text;
     createProduk.dosis = dosis.text;
-    // createProduk.gambarProduk = base64Encode(imageFile);
+    createProduk.foto = base64Encode(imagepath);
     obatService.updateProduk(obat: createProduk).then((value) {
       if (value.code == 200) {
         showDialog(

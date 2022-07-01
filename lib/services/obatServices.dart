@@ -60,6 +60,7 @@ class obatService {
       "jenis": obat.jenis,
       "deskripsi": obat.deskripsi,
       "dosis": obat.dosis,
+      "foto": obat.foto
     };
 
     var response = await Api().put(api_Url, body);

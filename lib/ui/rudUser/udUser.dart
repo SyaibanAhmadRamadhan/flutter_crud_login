@@ -32,7 +32,7 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
   bool imageUpdate = false;
   late Uint8List imagepath;
   // late Uint8List imagepath;
-  late Uint8List decodedbytes;
+  // late Uint8List decodedbytes;
   String base64string = '';
   String imagefile = '';
   late String _role = 'member';
