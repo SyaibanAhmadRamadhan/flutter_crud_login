@@ -6,7 +6,10 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 // import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:flutter_application_crud/services/registerService.dart';
+import 'package:flutter_application_crud/services/userInfo.dart';
+import 'package:flutter_application_crud/ui/adminPage.dart';
 import 'package:flutter_application_crud/ui/loginPage.dart';
+import 'package:flutter_application_crud/ui/userPage.dart';
 import 'package:flutter_application_crud/widgets/succesDialog.dart';
 import 'package:flutter_application_crud/widgets/warning_dialog.dart';
 // import 'package:image_picker/image_picker.dart'; //for android
@@ -21,6 +24,31 @@ class registerPage extends StatefulWidget {
 }
 
 class _registerPageState extends State<registerPage> {
+  @override
+  void initState() {
+    super.initState();
+    isLogin();
+  }
+
+  void isLogin() async {
+    var token = await UserInfo().getToken();
+    var role = await UserInfo().getRole();
+    if (token != null) {
+      setState(() {
+        if (role == 'member') {
+          userPage();
+        }
+        if (role == 'admin') {
+          adminPage();
+        }
+      });
+    } else {
+      setState(() {
+        const registerPage();
+      });
+    }
+  }
+
   final _formKey = GlobalKey<FormState>();
   bool imageAvalible = false; // for chrome
   // final ImagePicker _picker = ImagePicker(); // for android

@@ -34,7 +34,7 @@ class _createObatPageState extends State<createObatPage> {
   // Uint8List imagepath = Uint8List(0); // for run android
   // String base64string = ''; // for run android for update
   // String imagefile = ''; // for run android
-  late Uint8List imageFile; // for chrome
+  late Uint8List imageFile = Uint8List(0); // for chrome
   bool imagestatus = false; // for run android bagian update status
 
   Future openImage() async {
@@ -101,9 +101,9 @@ class _createObatPageState extends State<createObatPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      imageUpdate // for android
+                      imageUpdate
                           ? Flexible(
-                              child: !imagestatus // for android
+                              child: !imagestatus
                                   ? GestureDetector(
                                       child: Center(
                                           child:
@@ -123,7 +123,7 @@ class _createObatPageState extends State<createObatPage> {
                           : Flexible(
                               child:
                                   // imageFile != '' // for android
-                                  !imageAvalible // for chrome
+                                  imageAvalible // for chrome
                                       ? GestureDetector(
                                           child: Center(
                                               child:
