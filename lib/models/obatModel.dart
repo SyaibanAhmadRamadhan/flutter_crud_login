@@ -10,9 +10,6 @@ class obatModel {
     required this.dosis,
     required this.deskripsi,
     required this.foto,
-    this.message,
-    this.code,
-    this.status,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -23,9 +20,6 @@ class obatModel {
   String dosis;
   String deskripsi;
   String foto;
-  int? code;
-  bool? status;
-  String? message;
   String createdAt;
   String updatedAt;
 
@@ -36,8 +30,6 @@ class obatModel {
         dosis: json["dosis"].toString(),
         deskripsi: json["deskripsi"].toString(),
         foto: json["foto"].toString(),
-        message: json['data'],
-        code: json['code'],
         createdAt: json["created_at"],
         updatedAt: json["updated_at"],
       );

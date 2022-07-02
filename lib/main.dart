@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Toko Kita',
+      title: 'Toko Obat',
       debugShowCheckedModeBanner: false,
       home: page,
       // builder: EasyLoading.init(),

@@ -54,9 +54,9 @@ class _readObatPageState extends State<readObatPage> {
                       hintText: "Pencarian",
                       hintStyle: TextStyle(color: Colors.grey)),
                   onSubmitted: (value) {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            SearchObatPage(keyword: searchText.text)));
+                    // Navigator.of(context).push(MaterialPageRoute(
+                    //     builder: (context) =>
+                    //         SearchObatPage(keyword: searchText.text)));
                   },
                 ),
           backgroundColor: Colors.blue.shade200,
@@ -201,9 +201,7 @@ class _readObatPageState extends State<readObatPage> {
                       foto: '',
                       createdAt: '',
                       updatedAt: '',
-                      code: 0,
-                      message: '',
-                      status: true,
+                      // status: true,
                     ))));
           },
           tooltip: 'Tambah Data',

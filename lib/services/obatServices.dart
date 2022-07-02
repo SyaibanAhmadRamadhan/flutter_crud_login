@@ -64,11 +64,11 @@ class obatService {
     };
 
     var response = await Api().put(api_Url, body);
-    var jsonObj = json.decode(response.body);
-    if (jsonObj['code'] == 200) {
-      return CreateObatModel.success(jsonObj);
+    var varjson = json.decode(response.body);
+    if (varjson['code'] == 200) {
+      return CreateObatModel.success(varjson);
     } else {
-      return CreateObatModel.error(jsonObj);
+      return CreateObatModel.error(varjson);
     }
   }
 
