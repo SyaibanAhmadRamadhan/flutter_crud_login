@@ -1,7 +1,6 @@
 // ignore_for_file: deprecated_member_use, unnecessary_null_comparison, file_names, camel_case_types
 
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -10,7 +9,8 @@ import 'package:flutter_application_crud/services/obatServices.dart';
 import 'package:flutter_application_crud/ui/crudObat/readObatPage.dart';
 import 'package:flutter_application_crud/widgets/succesDialog.dart';
 import 'package:flutter_application_crud/widgets/warning_dialog.dart';
-import 'package:image_picker/image_picker.dart';
+// import 'package:image_picker/image_picker.dart'; // for android
+import 'package:image_picker_web/image_picker_web.dart'; // for chrome
 
 class createObatPage extends StatefulWidget {
   final obatModel obat;
@@ -28,22 +28,30 @@ class _createObatPageState extends State<createObatPage> {
   TextEditingController dosis = TextEditingController();
   int id = 0;
   bool _isUpdate = false;
-  final ImagePicker _picker = ImagePicker(); // for run android
-  bool imageUpdate = false; // for run android
-  Uint8List imagepath = Uint8List(0); // for run android
-  String base64string = ''; // for run android for update
-  String imagefile = ''; // for run android
+  bool imageAvalible = false; // for chrome
+  // final ImagePicker _picker = ImagePicker(); // for run android
+  bool imageUpdate = false;
+  // Uint8List imagepath = Uint8List(0); // for run android
+  // String base64string = ''; // for run android for update
+  // String imagefile = ''; // for run android
+  late Uint8List imageFile; // for chrome
   bool imagestatus = false; // for run android bagian update status
 
   Future openImage() async {
     try {
-      var pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+      // var pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+      final pickedFile = await ImagePickerWeb.getImageAsBytes(); // for chrome
       if (pickedFile != null) {
-        imagefile = pickedFile.path; // for android
-        File imagefile2 = File(imagefile); // for android
-        Uint8List imagebytes = await imagefile2.readAsBytes(); // for android
-        base64string = base64.encode(imagebytes); // for android
-        imagepath = base64.decode(base64string); // for android
+        setState(() {
+          imageFile = pickedFile;
+          imageAvalible = true;
+        }); // for chrome
+
+        // imagefile = pickedFile.path; // for android
+        // File imagefile2 = File(imagefile); // for android
+        // Uint8List imagebytes = await imagefile2.readAsBytes(); // for android
+        // base64string = base64.encode(imagebytes); // for android
+        // imagepath = base64.decode(base64string); // for android
       } else {}
     } catch (e) {
       return [];
@@ -59,8 +67,8 @@ class _createObatPageState extends State<createObatPage> {
       dosis = TextEditingController(text: widget.obat.dosis);
       deskripsi = TextEditingController(text: widget.obat.deskripsi);
       _isUpdate = true; // for android
-      imageUpdate = true; // for android
-      imagepath = base64Decode(widget.obat.foto);
+      imageUpdate = true;
+      imageFile = base64Decode(widget.obat.foto);
     }
     super.initState();
   }
@@ -98,24 +106,40 @@ class _createObatPageState extends State<createObatPage> {
                               child: !imagestatus // for android
                                   ? GestureDetector(
                                       child: Center(
-                                          child: Image.memory(
-                                      (imagepath),
+                                          child:
+                                              //       Image.memory(
+                                              //   (imagepath),
+                                              //   fit: BoxFit.cover,
+                                              //   height: 110,
+                                              // )// for android
+                                              Image.memory(
+                                      (imageFile),
                                       fit: BoxFit.cover,
                                       height: 110,
-                                    ))) // for android
+                                    ) // for chrome
+                                          ))
                                   : const Center(
                                       child: Text("masukansss gambar")))
                           : Flexible(
-                              child: imagefile != '' // for android
-                                  ? GestureDetector(
-                                      child: Center(
-                                          child: Image.file(
-                                      File(imagefile),
-                                      fit: BoxFit.cover,
-                                      // width: 360.0,
-                                      height: 110,
-                                    ))) // for android
-                                  : const Center(child: Text("masukan gambar")))
+                              child:
+                                  // imageFile != '' // for android
+                                  !imageAvalible // for chrome
+                                      ? GestureDetector(
+                                          child: Center(
+                                              child:
+                                                  //       Image.file(
+                                                  //   File(imagefile),
+                                                  //   fit: BoxFit.cover,
+                                                  //   height: 110,
+                                                  // )// for android
+                                                  Image.memory(
+                                          (imageFile),
+                                          fit: BoxFit.cover,
+                                          height: 110,
+                                        ) // for chrome
+                                              ))
+                                      : const Center(
+                                          child: Text("masukan gambar")))
                     ],
                   ),
                 ),
@@ -212,7 +236,8 @@ class _createObatPageState extends State<createObatPage> {
     createProduk.jenis = jenis.text;
     createProduk.deskripsi = deskripsi.text;
     createProduk.dosis = dosis.text;
-    createProduk.foto = base64Encode(imagepath); // for android
+    // createProduk.foto = base64Encode(imagepath); // for android
+    createProduk.foto = base64Encode(imageFile); // for chrom
     obatService.updateProduk(obat: createProduk).then((value) {
       if (value.code == 200) {
         showDialog(
@@ -249,8 +274,11 @@ class _createObatPageState extends State<createObatPage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       obatService
-          .createobatService(nama.text, deskripsi.text, jenis.text, dosis.text,
-              base64string) // for android
+          .createobatService
+          // (nama.text, deskripsi.text, jenis.text, dosis.text,
+          //     base64string) // for android
+          (nama.text, deskripsi.text, jenis.text, dosis.text,
+              base64Encode(imageFile)) // for chrome
           .then(
         (value) async {
           if (value.code != 200) {

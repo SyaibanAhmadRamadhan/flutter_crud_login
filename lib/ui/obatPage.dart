@@ -8,7 +8,7 @@ import 'package:flutter_application_crud/services/obatServices.dart';
 import 'package:flutter_application_crud/services/userInfo.dart';
 import 'package:flutter_application_crud/services/userService.dart';
 import 'package:flutter_application_crud/ui/detailObat.dart';
-import 'package:flutter_application_crud/ui/searchObatPage.dart';
+// import 'package:flutter_application_crud/ui/searchObatPage.dart';
 import 'package:flutter_application_crud/widgets/bottomBar.dart';
 
 class obatPage extends StatefulWidget {
