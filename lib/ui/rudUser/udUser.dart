@@ -29,50 +29,37 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
   TextEditingController role = TextEditingController();
   int id = 0;
   final ImagePicker _picker = ImagePicker();
-  bool imageUpdate = false;
-  late Uint8List imagepath;
-  String base64string = '';
-  String imagefile = '';
+  bool imageUpdate = false; // for android
+  late Uint8List imagepath; // for android
+  String base64string = ''; // for android
+  String imagefile = ''; // for android
   late String _role = 'member';
   late String _gender = 'pria';
   Future openImage() async {
     try {
       var pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-      //you can use ImageCourse.camera for Camera capture
       if (pickedFile != null) {
         imagefile = pickedFile.path;
-
-        File imagefile2 = File(imagefile); //convert Path to File
+        File imagefile2 = File(imagefile);
         Uint8List imagebytes = await imagefile2.readAsBytes();
         base64string = base64.encode(imagebytes);
         imagepath = base64.decode(base64string);
-        //decode base64 stirng to bytes
-
-        setState(() {});
-      } else {
-        // print("No image is selected.");
       }
     } catch (e) {
-      // print("error while picking file.");
+      return [];
     }
   }
 
   @override
   void initState() {
-    // nama = TextEditingController();
-    // jenis = TextEditingController();
-    // dosis = TextEditingController();
-    // deskripsi = TextEditingController();
     if (widget.user.id != 0) {
       id = widget.user.id;
       nama = TextEditingController(text: widget.user.nama);
       email = TextEditingController(text: widget.user.email);
-      // jenisKelamin = TextEditingController(text: widget.user.jenisKelamin);
-      // role = TextEditingController(text: widget.user.role);
       _gender = widget.user.jenisKelamin;
       _role = widget.user.role;
       alamat = TextEditingController(text: widget.user.alamat);
-      imagepath = base64Decode(widget.user.foto);
+      imagepath = base64Decode(widget.user.foto); // for android
     }
     super.initState();
   }
@@ -112,9 +99,8 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
                                       child: Image.memory(
                                   (imagepath),
                                   fit: BoxFit.cover,
-                                  // width: MediaQuery.of(context).size.width,
                                   height: 110,
-                                )))
+                                ))) // for android
                               : const Center(child: Text("masukan gambar")))
                     ],
                   ),
@@ -223,13 +209,13 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
                   width: MediaQuery.of(context).size.width,
                   height: 50.0,
                   // ignore: deprecated_member_use
-                  child: RaisedButton(
-                    color: Colors.green,
+                  child: ElevatedButton(
+                    // color: Colors.green,
                     onPressed: () {
                       update();
                     },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
+                    // shape: RoundedRectangleBorder(
+                    //     borderRadius: BorderRadius.circular(10.0)),
                     child: const Text(
                       'SIMPAN',
                       style: TextStyle(color: Colors.white),
@@ -253,7 +239,7 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
     createProduk.jenisKelamin = _gender;
     createProduk.role = _role;
     createProduk.alamat = alamat.text;
-    createProduk.foto = base64Encode(imagepath);
+    createProduk.foto = base64Encode(imagepath); // for android
     rudUserService.updateUser(user: createProduk).then((value) {
       if (value.code == 200) {
         showDialog(

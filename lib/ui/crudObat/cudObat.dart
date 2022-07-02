@@ -15,7 +15,6 @@ import 'package:image_picker/image_picker.dart';
 class createObatPage extends StatefulWidget {
   final obatModel obat;
   const createObatPage({Key? key, required this.obat}) : super(key: key);
-  // const createObatPage({Key? key}) : super(key: key);
 
   @override
   State<createObatPage> createState() => _createObatPageState();
@@ -23,40 +22,31 @@ class createObatPage extends StatefulWidget {
 
 class _createObatPageState extends State<createObatPage> {
   final _formKey = GlobalKey<FormState>();
-  // TextEditingController? nama, jenis, dosis, deskripsi;
   TextEditingController nama = TextEditingController();
   TextEditingController jenis = TextEditingController();
   TextEditingController deskripsi = TextEditingController();
   TextEditingController dosis = TextEditingController();
   int id = 0;
   bool _isUpdate = false;
-  final ImagePicker _picker = ImagePicker();
-  bool imageUpdate = false;
-  // List<int> byteList = [0, 2, 5, 7, 42, 255];
-  Uint8List imagepath = Uint8List(0);
-  String base64string = '';
-  String imagefile = '';
-  bool imagestatus = false;
+  final ImagePicker _picker = ImagePicker(); // for run android
+  bool imageUpdate = false; // for run android
+  Uint8List imagepath = Uint8List(0); // for run android
+  String base64string = ''; // for run android for update
+  String imagefile = ''; // for run android
+  bool imagestatus = false; // for run android bagian update status
 
   Future openImage() async {
     try {
       var pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-      //you can use ImageCourse.camera for Camera capture
       if (pickedFile != null) {
-        imagefile = pickedFile.path;
-
-        File imagefile2 = File(imagefile); //convert Path to File
-        Uint8List imagebytes = await imagefile2.readAsBytes();
-        base64string = base64.encode(imagebytes);
-        imagepath = base64.decode(base64string);
-        //decode base64 stirng to bytes
-
-        setState(() {});
-      } else {
-        // print("No image is selected.");
-      }
+        imagefile = pickedFile.path; // for android
+        File imagefile2 = File(imagefile); // for android
+        Uint8List imagebytes = await imagefile2.readAsBytes(); // for android
+        base64string = base64.encode(imagebytes); // for android
+        imagepath = base64.decode(base64string); // for android
+      } else {}
     } catch (e) {
-      // print("error while picking file.");
+      return [];
     }
   }
 
@@ -68,8 +58,8 @@ class _createObatPageState extends State<createObatPage> {
       jenis = TextEditingController(text: widget.obat.jenis);
       dosis = TextEditingController(text: widget.obat.dosis);
       deskripsi = TextEditingController(text: widget.obat.deskripsi);
-      _isUpdate = true;
-      imageUpdate = true;
+      _isUpdate = true; // for android
+      imageUpdate = true; // for android
       imagepath = base64Decode(widget.obat.foto);
     }
     super.initState();
@@ -103,21 +93,20 @@ class _createObatPageState extends State<createObatPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      imageUpdate
+                      imageUpdate // for android
                           ? Flexible(
-                              child: !imagestatus
+                              child: !imagestatus // for android
                                   ? GestureDetector(
                                       child: Center(
                                           child: Image.memory(
                                       (imagepath),
                                       fit: BoxFit.cover,
-                                      // width: 100,
                                       height: 110,
-                                    )))
+                                    ))) // for android
                                   : const Center(
                                       child: Text("masukansss gambar")))
                           : Flexible(
-                              child: imagefile != ''
+                              child: imagefile != '' // for android
                                   ? GestureDetector(
                                       child: Center(
                                           child: Image.file(
@@ -125,7 +114,7 @@ class _createObatPageState extends State<createObatPage> {
                                       fit: BoxFit.cover,
                                       // width: 360.0,
                                       height: 110,
-                                    )))
+                                    ))) // for android
                                   : const Center(child: Text("masukan gambar")))
                     ],
                   ),
@@ -194,13 +183,13 @@ class _createObatPageState extends State<createObatPage> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: 50.0,
-                  child: RaisedButton(
-                    color: Colors.green,
+                  child: ElevatedButton(
+                    // color: Colors.green,
                     onPressed: () {
                       _isUpdate ? update() : submit();
                     },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
+                    // shape: RoundedRectangleBorder(
+                    //     borderRadius: BorderRadius.circular(10.0)),
                     child: const Text(
                       'SIMPAN',
                       style: TextStyle(color: Colors.white),
@@ -221,10 +210,9 @@ class _createObatPageState extends State<createObatPage> {
     CreateObatModel createProduk = CreateObatModel(id: widget.obat.id);
     createProduk.nama = nama.text;
     createProduk.jenis = jenis.text;
-    // remove dot from string
     createProduk.deskripsi = deskripsi.text;
     createProduk.dosis = dosis.text;
-    createProduk.foto = base64Encode(imagepath);
+    createProduk.foto = base64Encode(imagepath); // for android
     obatService.updateProduk(obat: createProduk).then((value) {
       if (value.code == 200) {
         showDialog(
@@ -261,8 +249,8 @@ class _createObatPageState extends State<createObatPage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       obatService
-          .createobatService(
-              nama.text, deskripsi.text, jenis.text, dosis.text, base64string)
+          .createobatService(nama.text, deskripsi.text, jenis.text, dosis.text,
+              base64string) // for android
           .then(
         (value) async {
           if (value.code != 200) {

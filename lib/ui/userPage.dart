@@ -21,10 +21,7 @@ class _userPageState extends State<userPage> {
   String roleUser = 'member';
   int id = 1;
   String? role;
-  String rolee = "member";
   void initState() {
-    isUser();
-    isAdmin();
     isLoginuser();
     super.initState();
   }
@@ -40,20 +37,6 @@ class _userPageState extends State<userPage> {
         page = const LoginPage();
       });
     }
-  }
-
-  void isUser() async {
-    var userID = await UserInfo().getUserID();
-    setState(() {
-      id = userID!;
-    });
-  }
-
-  void isAdmin() async {
-    var role = await UserInfo().getRole();
-    setState(() {
-      role = role.toString();
-    });
   }
 
   Widget build(BuildContext context) {
@@ -135,8 +118,8 @@ class MyProfile extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              RaisedButton(
-                color: Colors.blue,
+              ElevatedButton(
+                // color: Colors.blue,
                 child: const Text('LOG OUT'),
                 onPressed: () async {
                   await UserInfo().logout();

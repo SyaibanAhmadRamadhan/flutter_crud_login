@@ -163,8 +163,8 @@ class MyProfile extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              RaisedButton(
-                color: Colors.blue,
+              ElevatedButton(
+                // color: Colors.blue,
                 child: const Text('LOG OUT'),
                 onPressed: () async {
                   await UserInfo().logout();

@@ -70,8 +70,8 @@ class _LoginPageState extends State<LoginPage> {
                         },
                       ),
                       const Padding(padding: EdgeInsets.only(top: 20)),
-                      RaisedButton(
-                        color: Colors.blue,
+                      ElevatedButton(
+                        // color: Colors.blue,
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             _submit();
