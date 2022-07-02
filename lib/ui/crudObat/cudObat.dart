@@ -107,39 +107,25 @@ class _createObatPageState extends State<createObatPage> {
                           ? Flexible(
                               child: !imagestatus
                                   ? GestureDetector(
-                                      child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
+                                      child: Center(
                                           child: Image.memory(
-                                            (imagepath),
-                                            fit: BoxFit.fitHeight,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                1,
-                                          )))
+                                      (imagepath),
+                                      fit: BoxFit.cover,
+                                      // width: 100,
+                                      height: 110,
+                                    )))
                                   : const Center(
                                       child: Text("masukansss gambar")))
                           : Flexible(
                               child: imagefile != ''
                                   ? GestureDetector(
-                                      child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
+                                      child: Center(
                                           child: Image.file(
-                                            File(imagefile),
-                                            fit: BoxFit.fitHeight,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                1,
-                                          )))
+                                      File(imagefile),
+                                      fit: BoxFit.cover,
+                                      // width: 360.0,
+                                      height: 110,
+                                    )))
                                   : const Center(child: Text("masukan gambar")))
                     ],
                   ),

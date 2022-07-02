@@ -16,64 +16,63 @@ class DdetailUserPageState extends State<DetailUserPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.user.nama),
-        elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black),
-      ),
-      body: SizedBox(
-        width: double.infinity,
-        child: ListView(
-          children: [
-            Image.memory(
-              base64Decode(widget.user.foto),
-              width: 80,
-            ),
-            Container(
-              padding: const EdgeInsets.all(5),
-              decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Color(0xff3164bd), Color(0xff295cb5)])),
-              child: Text(
-                'nama user : ${widget.user.nama}',
-                style: const TextStyle(color: Colors.white, fontSize: 20),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(10),
-              color: Colors.lightBlue,
-              width: double.infinity,
-              height: double.maxFinite,
-              child: Text(
-                'jenis user : ${widget.user.email}',
-                style: const TextStyle(fontSize: 15, color: Colors.black),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(10),
-              color: Colors.lightBlue,
-              width: double.infinity,
-              height: double.maxFinite,
-              child: Text(
-                'dosis user : ${widget.user.alamat}',
-                style: const TextStyle(fontSize: 50, color: Colors.black),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(10),
-              color: Colors.lightBlue,
-              width: double.infinity,
-              height: double.maxFinite,
-              child: Text(
-                'deskripsi user : ${widget.user.jenisKelamin}',
-                style: const TextStyle(fontSize: 15, color: Colors.black),
-              ),
-            ),
-          ],
+        appBar: AppBar(
+          title: Text(widget.user.nama),
+          elevation: 0,
+          iconTheme: const IconThemeData(color: Colors.black),
         ),
-      ),
-    );
+        body: SingleChildScrollView(
+          child: Card(
+            elevation: 0,
+            margin: const EdgeInsets.all(20),
+            // Detail Produk
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      margin: const EdgeInsets.symmetric(vertical: 20),
+                      child: Image.memory(
+                        base64Decode(widget.user.foto),
+                        height: 200,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        "email user : ${widget.user.email}",
+                        style: const TextStyle(fontSize: 25),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        "nama user : ${widget.user.nama}",
+                        style: const TextStyle(fontSize: 17),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        "role user : ${widget.user.role}",
+                        style: const TextStyle(fontSize: 17),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        "jenisKelamin user : ${widget.user.jenisKelamin}",
+                        style: const TextStyle(fontSize: 17),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        "alamat user : ${widget.user.alamat}",
+                        style: const TextStyle(fontSize: 17),
+                      ),
+                    ),
+                  ]),
+            ),
+          ),
+        ));
   }
 }

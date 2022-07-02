@@ -72,16 +72,18 @@ class _registerPageState extends State<registerPage> {
             padding: const EdgeInsets.all(10),
             child: Column(
               children: <Widget>[
-                imagepath != ""
-                    ? Image.file(File(imagepath))
-                    : Container(child: const Text("No Image selected.")),
-
-                //open button ----------------
                 ElevatedButton(
                     onPressed: () {
                       openImage();
                     },
                     child: const Text("Open Image")),
+                imagepath != ""
+                    ? Image.file(
+                        File(imagepath),
+                        fit: BoxFit.cover,
+                        height: 110,
+                      )
+                    : Container(child: const Text("No Image selected.")),
                 Container(
                   child: Form(
                     key: _formKey,

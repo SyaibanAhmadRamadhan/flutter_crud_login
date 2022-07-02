@@ -108,17 +108,13 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
                       Flexible(
                           child: !imageUpdate
                               ? GestureDetector(
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(8),
+                                  child: Center(
                                       child: Image.memory(
-                                        (imagepath),
-                                        fit: BoxFit.fitHeight,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                1,
-                                      )))
+                                  (imagepath),
+                                  fit: BoxFit.cover,
+                                  // width: MediaQuery.of(context).size.width,
+                                  height: 110,
+                                )))
                               : const Center(child: Text("masukan gambar")))
                     ],
                   ),

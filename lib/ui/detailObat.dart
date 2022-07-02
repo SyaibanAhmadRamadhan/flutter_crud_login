@@ -16,64 +16,57 @@ class _detailObatPageState extends State<detailObatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.obat.nama),
-        elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black),
-      ),
-      body: SizedBox(
-        width: double.infinity,
-        child: ListView(
-          children: [
-            Image.memory(
-              base64Decode(widget.obat.foto),
-              width: 80,
-            ),
-            Container(
-              padding: const EdgeInsets.all(5),
-              decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Color(0xff3164bd), Color(0xff295cb5)])),
-              child: Text(
-                'nama obat : ${widget.obat.nama}',
-                style: const TextStyle(color: Colors.white, fontSize: 20),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(10),
-              color: Colors.lightBlue,
-              width: double.infinity,
-              height: double.maxFinite,
-              child: Text(
-                'jenis obat : ${widget.obat.jenis}',
-                style: const TextStyle(fontSize: 15, color: Colors.black),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(10),
-              color: Colors.lightBlue,
-              width: double.infinity,
-              height: double.maxFinite,
-              child: Text(
-                'dosis obat : ${widget.obat.dosis}',
-                style: const TextStyle(fontSize: 50, color: Colors.black),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(10),
-              color: Colors.lightBlue,
-              width: double.infinity,
-              height: double.maxFinite,
-              child: Text(
-                'deskripsi obat : ${widget.obat.deskripsi}',
-                style: const TextStyle(fontSize: 15, color: Colors.black),
-              ),
-            ),
-          ],
+        appBar: AppBar(
+          title: Text(widget.obat.dosis),
+          elevation: 0,
+          iconTheme: const IconThemeData(color: Colors.black),
         ),
-      ),
-    );
+        body: SingleChildScrollView(
+          child: Card(
+            elevation: 0,
+            margin: const EdgeInsets.all(20),
+            // Detail Produk
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      margin: const EdgeInsets.symmetric(vertical: 20),
+                      child: Image.memory(
+                        base64Decode(widget.obat.foto),
+                        height: 200,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        "nama obat : ${widget.obat.nama}",
+                        style: const TextStyle(fontSize: 25),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        "jenis obat : ${widget.obat.jenis}",
+                        style: const TextStyle(fontSize: 17),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        "dosis obat : ${widget.obat.dosis}",
+                        style: const TextStyle(fontSize: 17),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        "deskripsi obat : ${widget.obat.deskripsi}",
+                        style: const TextStyle(fontSize: 17),
+                      ),
+                    ),
+                  ]),
+            ),
+          ),
+        ));
   }
 }
