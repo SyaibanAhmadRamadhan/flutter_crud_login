@@ -11,7 +11,8 @@ import 'package:flutter_application_crud/widgets/succesDialog.dart';
 import 'package:flutter_application_crud/widgets/warning_dialog.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:email_validator/email_validator.dart';
-// import 'package:image_picker_web/image_picker_web.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:image_picker_web/image_picker_web.dart';
 
 class registerPage extends StatefulWidget {
   const registerPage({Key? key}) : super(key: key);
@@ -24,28 +25,25 @@ class _registerPageState extends State<registerPage> {
   final _formKey = GlobalKey<FormState>();
   bool imageAvalible = false;
   final ImagePicker _picker = ImagePicker();
-  String imagepath = '';
-  String base64string = "";
-  late Uint8List imageFile; // for chrome
-  String imagefile = ''; // for run android
+  late Uint8List imagebytes; // for chrome
+  late File imageFile;
   Future openImage() async {
     try {
-      // final image = await ImagePickerWeb.getImageAsBytes(); // for chrome
-      var image =
-          await _picker.pickImage(source: ImageSource.gallery); // for android
-      if (image != null) {
-        // setState(() {
-        //   imageFile = image;
-        //   imageAvalible = true;
-        // }); // for chrome
-
-        imagefile = image.path; // for android
-        File imagefile2 = File(imagefile); // for android
-        Uint8List imagebytes = await imagefile2.readAsBytes(); // for android
-        base64string = base64.encode(imagebytes); // for androidr android
-
-      } else {
-        // print("No image is selected.");
+      if (kIsWeb){
+        await ImagePickerWeb.getImageAsBytes().then((value) => {
+            setState(() {
+              imagebytes = value!;
+              imageAvalible = true;
+            })
+        });
+      }else{
+        await _picker.pickImage(source: ImageSource.gallery).then((value) => {
+          setState((() {
+            imageAvalible = true;
+            imageFile = File(value!.path);
+          }))
+        }); // for android
+        imagebytes = await imageFile.readAsBytes();
       }
     } catch (e) {
       return [];
@@ -78,19 +76,11 @@ class _registerPageState extends State<registerPage> {
                       openImage();
                     },
                     child: const Text("Open Image")),
-                imageAvalible
-                    ?
-                    // Image.memory(
-                    //     (imageFile),
-                    //     fit: BoxFit.cover,
-                    //     height: 110,
-                    //   ) // for chrome
-                    Image.file(
-                        File(imagefile),
-                        fit: BoxFit.cover,
-                        height: 110,
-                      ) // for android
-                    : Container(child: const Text("No Image selected.")),
+                if (imageAvalible) 
+                        kIsWeb
+                        ? Image.memory(imagebytes,fit: BoxFit.cover,height: 110)
+                        : Image.file(imageFile,fit: BoxFit.cover, height: 110)
+                else Container(child: const Text("No Image selected.")),
                 Container(
                   child: Form(
                     key: _formKey,
@@ -239,8 +229,7 @@ class _registerPageState extends State<registerPage> {
         .register(
             alamat: _alamatTextFieldController.text,
             nama: _namaTextFieldController.text,
-            // foto: base64Encode(imageFile), // for chrome
-            foto: base64string,
+            foto: base64Encode(imagebytes),
             jenisKelamin: _gender,
             email: _emailTextFieldController.text,
             // role: _role.text,

@@ -11,6 +11,8 @@ import 'package:flutter_application_crud/ui/rudUser/readUserPage.dart';
 import 'package:flutter_application_crud/widgets/succesDialog.dart';
 import 'package:flutter_application_crud/widgets/warning_dialog.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_web/image_picker_web.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class UpdateDeleteUser extends StatefulWidget {
   final rudUserModel user;
@@ -28,22 +30,29 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
   TextEditingController alamat = TextEditingController();
   TextEditingController role = TextEditingController();
   int id = 0;
+  bool imageAvalible = false;
   final ImagePicker _picker = ImagePicker();
-  bool imageUpdate = false; // for android
-  late Uint8List imagepath; // for android
-  String base64string = ''; // for android
-  String imagefile = ''; // for android
+  late Uint8List imagebytes; // for chrome
+  late File imageFile;
   late String _role = 'member';
   late String _gender = 'pria';
   Future openImage() async {
-    try {
-      var pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
-        imagefile = pickedFile.path;
-        File imagefile2 = File(imagefile);
-        Uint8List imagebytes = await imagefile2.readAsBytes();
-        base64string = base64.encode(imagebytes);
-        imagepath = base64.decode(base64string);
+   try {
+      if (kIsWeb){
+        await ImagePickerWeb.getImageAsBytes().then((value) => {
+            setState(() {
+              imagebytes = value!;
+              imageAvalible = true;
+            })
+        });
+      }else{
+        await _picker.pickImage(source: ImageSource.gallery).then((value) => {
+          setState((() {
+            imageAvalible = true;
+            imageFile = File(value!.path);
+          }))
+        }); // for android
+        imagebytes = await imageFile.readAsBytes();
       }
     } catch (e) {
       return [];
@@ -59,7 +68,7 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
       _gender = widget.user.jenisKelamin;
       _role = widget.user.role;
       alamat = TextEditingController(text: widget.user.alamat);
-      imagepath = base64Decode(widget.user.foto); // for android
+      imagebytes = base64Decode(widget.user.foto); // for android
     }
     super.initState();
   }
@@ -93,14 +102,14 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Flexible(
-                          child: !imageUpdate
+                          child: !imageAvalible
                               ? GestureDetector(
                                   child: Center(
                                       child: Image.memory(
-                                  (imagepath),
+                                  (imagebytes),
                                   fit: BoxFit.cover,
                                   height: 110,
-                                ))) // for android
+                                ),)) // for android
                               : const Center(child: Text("masukan gambar")))
                     ],
                   ),
@@ -239,7 +248,7 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
     createProduk.jenisKelamin = _gender;
     createProduk.role = _role;
     createProduk.alamat = alamat.text;
-    createProduk.foto = base64Encode(imagepath); // for android
+    createProduk.foto = base64Encode(imagebytes); // for android
     rudUserService.updateUser(user: createProduk).then((value) {
       if (value.code == 200) {
         showDialog(
