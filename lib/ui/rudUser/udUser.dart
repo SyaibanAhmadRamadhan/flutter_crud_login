@@ -1,7 +1,6 @@
 // ignore_for_file: file_names, unrelated_type_equality_checks
 
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';

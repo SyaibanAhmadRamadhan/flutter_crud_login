@@ -1,8 +1,6 @@
 // ignore_for_file: file_names, camel_case_types, unnecessary_new, unused_local_variable, avoid_unnecessary_containers, import_of_legacy_library_into_null_safe, deprecated_member_use, unnecessary_const
 
 import 'dart:convert';
-import 'dart:io';
-// import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 // import 'package:flutter_masked_text2/flutter_masked_text2.dart';
