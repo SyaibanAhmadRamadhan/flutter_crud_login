@@ -12,7 +12,6 @@ import 'package:flutter_application_crud/ui/userPage.dart';
 import 'package:flutter_application_crud/widgets/succesDialog.dart';
 import 'package:flutter_application_crud/widgets/warning_dialog.dart';
 // import 'package:image_picker/image_picker.dart'; //for android
-import 'package:email_validator/email_validator.dart';
 import 'package:image_picker_web/image_picker_web.dart'; // for chrome
 
 class registerPage extends StatefulWidget {
@@ -145,9 +144,12 @@ class _registerPageState extends State<registerPage> {
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20.0))),
                           controller: _emailTextFieldController,
-                          validator: (value) => EmailValidator.validate(value)
-                              ? null
-                              : "isi alamat email dengan benar",
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'email harus diisi';
+                            }
+                            return null;
+                          },
                         ),
                         const Padding(padding: EdgeInsets.only(top: 20)),
                         TextFormField(

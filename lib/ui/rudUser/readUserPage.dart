@@ -21,22 +21,8 @@ class readUserPage extends StatefulWidget {
 }
 
 class _readUserPageState extends State<readUserPage> {
-  userModel user = userModel();
-
   bool isSearching = false;
   TextEditingController searchText = TextEditingController();
-
-  void admin() async {
-    var role = await UserInfo().getRole();
-    await UserInfo().getUserID().then((id) => {
-          userService.getUserDetail(id!).then((data) => {
-                setState(() {
-                  role = role.toString();
-                  user = data;
-                })
-              })
-        });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -162,7 +148,7 @@ class _readUserPageState extends State<readUserPage> {
                                                       (BuildContext context) =>
                                                           SuccessDialog(
                                                     description:
-                                                        "Data user ${listUser[index].nama} berhasil dihapus",
+                                                        "Data user berhasil dihapus",
                                                     okClick: () {
                                                       Navigator
                                                           .pushAndRemoveUntil(

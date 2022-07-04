@@ -30,7 +30,6 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
   int id = 0;
   // final ImagePicker _picker = ImagePicker(); // for android
   bool imageUpdate = false; // for android
-  bool imageAvalible = false; // for chrome
   late Uint8List imageFile; // for chrome
   // late Uint8List imagepath; // for android
   // String base64string = ''; // for android
@@ -45,7 +44,6 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
       if (pickedFile != null) {
         setState(() {
           imageFile = pickedFile;
-          imageAvalible = true;
         }); // for chrome
 
         // imagefile = pickedFile.path; // for android
@@ -109,14 +107,7 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
                           child: !imageUpdate
                               ? GestureDetector(
                                   child: Center(
-                                      child:
-                                          //       Image.memory(
-                                          //   (imagepath),
-                                          //   fit: BoxFit.cover,
-                                          //   height: 110,
-                                          // ) // for android
-
-                                          Image.memory(
+                                      child: Image.memory(
                                   (imageFile),
                                   fit: BoxFit.cover,
                                   height: 110,
@@ -229,14 +220,10 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: 50.0,
-                  // ignore: deprecated_member_use
                   child: ElevatedButton(
-                    // color: Colors.green,
                     onPressed: () {
                       update();
                     },
-                    // shape: RoundedRectangleBorder(
-                    //     borderRadius: BorderRadius.circular(10.0)),
                     child: const Text(
                       'SIMPAN',
                       style: TextStyle(color: Colors.white),

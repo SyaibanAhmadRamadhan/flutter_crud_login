@@ -5,12 +5,9 @@ import 'package:flutter_application_crud/services/loginServices.dart';
 import 'package:flutter_application_crud/services/userInfo.dart';
 import 'package:flutter_application_crud/ui/adminPage.dart';
 import 'package:flutter_application_crud/ui/crudObat/readObatPage.dart';
-import 'package:flutter_application_crud/ui/homePage.dart';
-// import 'package:flutter_application_crud/ui/obatPage.dart';
 import 'package:flutter_application_crud/ui/registerPage.dart';
 import 'package:flutter_application_crud/ui/userPage.dart';
 import 'package:flutter_application_crud/widgets/warning_dialog.dart';
-import 'package:email_validator/email_validator.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -49,9 +46,12 @@ class _LoginPageState extends State<LoginPage> {
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20.0))),
                         controller: _emailTextboxController,
-                        validator: (value) => EmailValidator.validate(value)
-                            ? null
-                            : "isi alamat email dengan benar",
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'email harus diisi';
+                          }
+                          return null;
+                        },
                       ),
                       const Padding(padding: EdgeInsets.only(top: 20)),
                       TextFormField(

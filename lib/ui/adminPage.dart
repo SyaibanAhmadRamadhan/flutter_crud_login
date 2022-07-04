@@ -9,6 +9,7 @@ import 'package:flutter_application_crud/services/userService.dart';
 import 'package:flutter_application_crud/ui/crudObat/readObatPage.dart';
 import 'package:flutter_application_crud/ui/loginPage.dart';
 import 'package:flutter_application_crud/ui/rudUser/readUserPage.dart';
+import 'package:flutter_application_crud/widgets/bottomBar.dart';
 
 class adminPage extends StatefulWidget {
   const adminPage({Key? key}) : super(key: key);
@@ -18,14 +19,14 @@ class adminPage extends StatefulWidget {
 }
 
 class _adminPageState extends State<adminPage> {
-  // Widget page = const CircularProgressIndicator();
+  Widget page = const CircularProgressIndicator();
 
   late int id;
-  String? userRole;
   @override
   void initState() {
     super.initState();
     isUser();
+    loginAdmin();
   }
 
   void isUser() async {
@@ -34,69 +35,42 @@ class _adminPageState extends State<adminPage> {
       id = userID!;
     });
   }
-  // void loginAdmin() async {
-  //   var token = await UserInfo().getToken();
-  //   var id = await UserInfo().getUserID();
-  //   if (token != null && id != null) {
-  //     setState(() {
-  //       page = const adminPage();
-  //     });
-  //   } else {
-  //     setState(() {
-  //       page = const LoginPage();
-  //     });
-  //   }
-  // }
+
+  void loginAdmin() async {
+    var token = await UserInfo().getToken();
+    var id = await UserInfo().getUserID();
+    if (token != null && id != null) {
+      setState(() {
+        page = const adminPage();
+      });
+    } else {
+      setState(() {
+        page = const LoginPage();
+      });
+    }
+  }
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("profile")),
-      body: Card(
-        margin: const EdgeInsets.all(16),
-        child: Container(
-          alignment: Alignment.center,
-          child: FutureBuilder<userModel>(
-              future: userService.getUserDetail(id),
-              builder: (context, snapshot) {
-                return snapshot.hasData
-                    ? MyProfile(
-                        data: snapshot.data,
-                      )
-                    : const Center(
-                        child: CircularProgressIndicator(color: Colors.black),
-                      );
-              }),
+        appBar: AppBar(title: const Text("profile")),
+        body: Card(
+          margin: const EdgeInsets.all(16),
+          child: Container(
+            alignment: Alignment.center,
+            child: FutureBuilder<userModel>(
+                future: userService.getUserDetail(id),
+                builder: (context, snapshot) {
+                  return snapshot.hasData
+                      ? MyProfile(
+                          data: snapshot.data,
+                        )
+                      : const Center(
+                          child: CircularProgressIndicator(color: Colors.black),
+                        );
+                }),
+          ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: 1,
-        onTap: (i) async {
-          switch (i) {
-            case 0:
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (BuildContext context) => const readObatPage()));
-              break;
-            case 1:
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (BuildContext context) => const adminPage()));
-              break;
-            case 2:
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (BuildContext context) => const readUserPage()));
-              break;
-            default:
-          }
-        },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'obat'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.supervised_user_circle), label: 'profile'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.supervised_user_circle), label: 'user')
-        ],
-      ),
-    );
+        bottomNavigationBar: bottomBar(1, context));
   }
 }
 
@@ -113,10 +87,7 @@ class MyProfile extends StatelessWidget {
       child: ListView(
         children: [
           Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // const Icon(Icons.person, size: 150),
-              // const SizedBox(height: 16),
               Image.memory(
                 base64Decode("${data?.foto}"),
                 fit: BoxFit.cover,

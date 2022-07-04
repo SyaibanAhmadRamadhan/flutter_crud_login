@@ -108,13 +108,7 @@ class _createObatPageState extends State<createObatPage> {
                               child: !imagestatus
                                   ? GestureDetector(
                                       child: Center(
-                                          child:
-                                              //       Image.memory(
-                                              //   (imagepath),
-                                              //   fit: BoxFit.cover,
-                                              //   height: 110,
-                                              // ) // for android
-                                              Image.memory(
+                                          child: Image.memory(
                                       (imageFile),
                                       fit: BoxFit.cover,
                                       height: 110,
@@ -128,13 +122,7 @@ class _createObatPageState extends State<createObatPage> {
                                   imageAvalible // for chrome
                                       ? GestureDetector(
                                           child: Center(
-                                              child:
-                                                  //       Image.file(
-                                                  //   File(imagefile),
-                                                  //   fit: BoxFit.cover,
-                                                  //   height: 110,
-                                                  // )// for android
-                                                  Image.memory(
+                                              child: Image.memory(
                                           (imageFile),
                                           fit: BoxFit.cover,
                                           height: 110,
@@ -317,7 +305,7 @@ class _createObatPageState extends State<createObatPage> {
             context: context,
             barrierDismissible: false,
             builder: (BuildContext context) => const WarningDialog(
-              description: "register gagal, silahkan coba lagi guys !",
+              description: "menambah data obat gagal !",
             ),
           );
         },

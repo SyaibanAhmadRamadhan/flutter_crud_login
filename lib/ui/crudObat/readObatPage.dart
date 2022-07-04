@@ -21,22 +21,8 @@ class readObatPage extends StatefulWidget {
 }
 
 class _readObatPageState extends State<readObatPage> {
-  userModel user = userModel();
-
   bool isSearching = false;
   TextEditingController searchText = TextEditingController();
-
-  void admin() async {
-    var role = await UserInfo().getRole();
-    await UserInfo().getUserID().then((id) => {
-          userService.getUserDetail(id!).then((data) => {
-                setState(() {
-                  role = role.toString();
-                  user = data;
-                })
-              })
-        });
-  }
 
   @override
   Widget build(BuildContext context) {

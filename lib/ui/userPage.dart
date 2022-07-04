@@ -20,7 +20,6 @@ class _userPageState extends State<userPage> {
   Widget page = const CircularProgressIndicator();
   String roleUser = 'member';
   late int id;
-  String? userRole;
   @override
   void initState() {
     super.initState();
@@ -85,10 +84,7 @@ class MyProfile extends StatelessWidget {
       child: ListView(
         children: [
           Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // const Icon(Icons.person, size: 150),
-              // const SizedBox(height: 16),
               Image.memory(
                 base64Decode("${data?.foto}"),
                 fit: BoxFit.cover,

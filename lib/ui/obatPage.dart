@@ -8,6 +8,7 @@ import 'package:flutter_application_crud/services/obatServices.dart';
 import 'package:flutter_application_crud/services/userInfo.dart';
 import 'package:flutter_application_crud/services/userService.dart';
 import 'package:flutter_application_crud/ui/detailObat.dart';
+import 'package:flutter_application_crud/ui/searchObatPage.dart';
 // import 'package:flutter_application_crud/ui/searchObatPage.dart';
 import 'package:flutter_application_crud/widgets/bottomBar.dart';
 
@@ -19,22 +20,8 @@ class obatPage extends StatefulWidget {
 }
 
 class _obatPageState extends State<obatPage> {
-  userModel user = userModel();
-
   bool isSearching = false;
   TextEditingController searchText = TextEditingController();
-
-  void admin() async {
-    var role = await UserInfo().getRole();
-    await UserInfo().getUserID().then((id) => {
-          userService.getUserDetail(id!).then((data) => {
-                setState(() {
-                  role = role.toString();
-                  user = data;
-                })
-              })
-        });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +39,9 @@ class _obatPageState extends State<obatPage> {
                       hintText: "Pencarian",
                       hintStyle: TextStyle(color: Colors.grey)),
                   onSubmitted: (value) {
-                    // Navigator.of(context).push(MaterialPageRoute(
-                    //     builder: (context) =>
-                    //         SearchObatPage(keyword: searchText.text)));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            SearchObatPage(keyword: searchText.text)));
                   },
                 ),
           backgroundColor: Colors.blue.shade200,
