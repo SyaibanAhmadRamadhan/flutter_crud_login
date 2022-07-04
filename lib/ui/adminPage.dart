@@ -18,35 +18,35 @@ class adminPage extends StatefulWidget {
 }
 
 class _adminPageState extends State<adminPage> {
-  Widget page = const CircularProgressIndicator();
-  int id = 1;
-  String? role;
-  String rolee = "member";
+  // Widget page = const CircularProgressIndicator();
+
+  late int id;
+  String? userRole;
+  @override
   void initState() {
-    admin();
-    loginAdmin();
     super.initState();
+    isUser();
   }
 
-  void loginAdmin() async {
-    var token = await UserInfo().getToken();
-    if (token != null) {
-      setState(() {
-        page = const adminPage();
-      });
-    } else {
-      setState(() {
-        page = const LoginPage();
-      });
-    }
-  }
-
-  void admin() async {
-    var idAdmin = await UserInfo().getUserID();
+  void isUser() async {
+    var userID = await UserInfo().getUserID();
     setState(() {
-      id = idAdmin!;
+      id = userID!;
     });
   }
+  // void loginAdmin() async {
+  //   var token = await UserInfo().getToken();
+  //   var id = await UserInfo().getUserID();
+  //   if (token != null && id != null) {
+  //     setState(() {
+  //       page = const adminPage();
+  //     });
+  //   } else {
+  //     setState(() {
+  //       page = const LoginPage();
+  //     });
+  //   }
+  // }
 
   Widget build(BuildContext context) {
     return Scaffold(

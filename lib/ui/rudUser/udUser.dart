@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, unrelated_type_equality_checks
 
 import 'dart:convert';
 import 'dart:io';
@@ -10,8 +10,8 @@ import 'package:flutter_application_crud/services/readUserService.dart';
 import 'package:flutter_application_crud/ui/rudUser/readUserPage.dart';
 import 'package:flutter_application_crud/widgets/succesDialog.dart';
 import 'package:flutter_application_crud/widgets/warning_dialog.dart';
-import 'package:image_picker/image_picker.dart'; // for android
-// import 'package:image_picker_web/image_picker_web.dart'; // for chrome
+// import 'package:image_picker/image_picker.dart'; // for android
+import 'package:image_picker_web/image_picker_web.dart'; // for chrome
 
 class UpdateDeleteUser extends StatefulWidget {
   final rudUserModel user;
@@ -29,31 +29,34 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
   TextEditingController alamat = TextEditingController();
   TextEditingController role = TextEditingController();
   int id = 0;
-  final ImagePicker _picker = ImagePicker(); // for android
+  // final ImagePicker _picker = ImagePicker(); // for android
   bool imageUpdate = false; // for android
-  // bool imageAvalible = false; // for chrome
-  // late Uint8List imageFile; // for chrome
-  late Uint8List imagepath; // for android
-  String base64string = ''; // for android
-  String imagefile = ''; // for android
+  bool imageAvalible = false; // for chrome
+  late Uint8List imageFile; // for chrome
+  // late Uint8List imagepath; // for android
+  // String base64string = ''; // for android
+  // String imagefile = ''; // for android
   late String _role = 'member';
   late String _gender = 'pria';
   Future openImage() async {
     try {
-      var pickedFile =
-          await _picker.pickImage(source: ImageSource.gallery); // for android
-      // final pickedFile = await ImagePickerWeb.getImageAsBytes(); // for chrome
+      // var pickedFile =
+      // await _picker.pickImage(source: ImageSource.gallery); // for android
+      final pickedFile = await ImagePickerWeb.getImageAsBytes(); // for chrome
       if (pickedFile != null) {
-        // setState(() {
-        //   imageFile = pickedFile;
-        //   imageAvalible = true;
-        // }); // for chrome
+        setState(() {
+          imageFile = pickedFile;
+          imageAvalible = true;
+        }); // for chrome
 
-        imagefile = pickedFile.path; // for android
-        File imagefile2 = File(imagefile); // for android
-        Uint8List imagebytes = await imagefile2.readAsBytes(); // for android
-        base64string = base64.encode(imagebytes); // for android
-        imagepath = base64.decode(base64string); // for android
+        // imagefile = pickedFile.path; // for android
+        // File imagefile2 = File(imagefile); // for android
+        // Uint8List imagebytes = await imagefile2.readAsBytes(); // for android
+        // setState(() {
+        //   base64string = base64.encode(imagebytes); // for android
+        //   imagepath = base64.decode(base64string); // for android
+        //   // imagestatus = true; // for run android bagian update status
+        // });
       }
     } catch (e) {
       return [];
@@ -69,8 +72,8 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
       _gender = widget.user.jenisKelamin;
       _role = widget.user.role;
       alamat = TextEditingController(text: widget.user.alamat);
-      // imageFile = base64Decode(widget.user.foto); // for chrome
-      imagepath = base64Decode(widget.user.foto); // for android
+      imageFile = base64Decode(widget.user.foto); // for chrome
+      // imagepath = base64Decode(widget.user.foto); // for android
     }
     super.initState();
   }
@@ -107,17 +110,18 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
                           child: !imageUpdate
                               ? GestureDetector(
                                   child: Center(
-                                      child: Image.memory(
-                                  (imagepath),
+                                      child:
+                                          //       Image.memory(
+                                          //   (imagepath),
+                                          //   fit: BoxFit.cover,
+                                          //   height: 110,
+                                          // ) // for android
+
+                                          Image.memory(
+                                  (imageFile),
                                   fit: BoxFit.cover,
                                   height: 110,
-                                ) // for android
-
-                                      //           Image.memory(
-                                      //   (imageFile),
-                                      //   fit: BoxFit.cover,
-                                      //   height: 110,
-                                      // ) // for chrome
+                                ) // for chrome
                                       ))
                               : const Center(child: Text("masukan gambar")))
                     ],
@@ -257,8 +261,8 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
     createProduk.jenisKelamin = _gender;
     createProduk.role = _role;
     createProduk.alamat = alamat.text;
-    createProduk.foto = base64Encode(imagepath); // for android
-    // createProduk.foto = base64Encode(imageFile); // for chrome
+    // createProduk.foto = base64string; // for android
+    createProduk.foto = base64Encode(imageFile); // for chrome
     rudUserService.updateUser(user: createProduk).then((value) {
       if (value.code == 200) {
         showDialog(
@@ -266,10 +270,12 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
           builder: (context) => SuccessDialog(
             description: "data dengan nama ${widget.user.nama}",
             okClick: () {
-              Navigator.of(context).push(
+              Navigator.pushAndRemoveUntil(
+                context,
                 MaterialPageRoute(
                   builder: (BuildContext context) => const readUserPage(),
                 ),
+                (route) => false,
               );
             },
           ),

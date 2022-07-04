@@ -14,16 +14,31 @@ Widget bottomBar(index, BuildContext context) {
     onTap: (i) {
       switch (i) {
         case 0:
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (BuildContext context) => const readObatPage()));
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => const readObatPage(),
+            ),
+            (route) => false,
+          );
           break;
         case 1:
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (BuildContext context) => const adminPage()));
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => const adminPage(),
+            ),
+            (route) => false,
+          );
           break;
         case 2:
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (BuildContext context) => const readUserPage()));
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => const readUserPage(),
+            ),
+            (route) => false,
+          );
           break;
         default:
       }
@@ -45,12 +60,22 @@ Widget bottomBarUser(index, BuildContext context) {
     onTap: (i) async {
       switch (i) {
         case 0:
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (BuildContext context) => const obatPage()));
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => const obatPage(),
+            ),
+            (route) => false,
+          );
           break;
         case 1:
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (BuildContext context) => const userPage()));
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => const userPage(),
+            ),
+            (route) => false,
+          );
           break;
         default:
       }

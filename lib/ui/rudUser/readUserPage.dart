@@ -164,12 +164,15 @@ class _readUserPageState extends State<readUserPage> {
                                                     description:
                                                         "Data user ${listUser[index].nama} berhasil dihapus",
                                                     okClick: () {
-                                                      Navigator.of(context)
-                                                          .push(
+                                                      Navigator
+                                                          .pushAndRemoveUntil(
+                                                        context,
                                                         MaterialPageRoute(
-                                                          builder: (context) =>
+                                                          builder: (BuildContext
+                                                                  context) =>
                                                               const readUserPage(),
                                                         ),
+                                                        (route) => false,
                                                       );
                                                     },
                                                   ),

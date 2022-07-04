@@ -19,7 +19,7 @@ class userPage extends StatefulWidget {
 class _userPageState extends State<userPage> {
   Widget page = const CircularProgressIndicator();
   String roleUser = 'member';
-  int id = 1;
+  late int id;
   String? userRole;
   @override
   void initState() {
