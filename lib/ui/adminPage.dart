@@ -19,16 +19,16 @@ class adminPage extends StatefulWidget {
 
 class _adminPageState extends State<adminPage> {
   Widget page = const CircularProgressIndicator();
-  late int id;
+  int id = 1;
   String? role;
   String rolee = "member";
   void initState() {
-    isAdmin();
-    isLoginuser();
+    admin();
+    loginAdmin();
     super.initState();
   }
 
-  void isLoginuser() async {
+  void loginAdmin() async {
     var token = await UserInfo().getToken();
     if (token != null) {
       setState(() {
@@ -41,7 +41,7 @@ class _adminPageState extends State<adminPage> {
     }
   }
 
-  void isAdmin() async {
+  void admin() async {
     var idAdmin = await UserInfo().getUserID();
     setState(() {
       id = idAdmin!;
