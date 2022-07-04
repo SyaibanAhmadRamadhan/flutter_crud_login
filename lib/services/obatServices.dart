@@ -43,7 +43,7 @@ class obatService {
     var response = await Api().post(api_url, body);
     var varjson = json.decode(response.body);
     if (varjson['code'] == 200) {
-      return obatModel.fromJson(varjson);
+      return CreateObatModel.fromJson(varjson);
     } else {
       return CreateObatModel.error(varjson);
     }

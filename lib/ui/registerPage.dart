@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, camel_case_types, unnecessary_new, unused_local_variable, avoid_unnecessary_containers, import_of_legacy_library_into_null_safe, deprecated_member_use, unnecessary_const
 
 import 'dart:convert';
+import 'dart:io';
 // import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
@@ -12,9 +13,9 @@ import 'package:flutter_application_crud/ui/loginPage.dart';
 import 'package:flutter_application_crud/ui/userPage.dart';
 import 'package:flutter_application_crud/widgets/succesDialog.dart';
 import 'package:flutter_application_crud/widgets/warning_dialog.dart';
-// import 'package:image_picker/image_picker.dart'; //for android
+import 'package:image_picker/image_picker.dart'; //for android
 import 'package:email_validator/email_validator.dart';
-import 'package:image_picker_web/image_picker_web.dart'; // for chrome
+// import 'package:image_picker_web/image_picker_web.dart'; // for chrome
 
 class registerPage extends StatefulWidget {
   const registerPage({Key? key}) : super(key: key);
@@ -51,26 +52,26 @@ class _registerPageState extends State<registerPage> {
 
   final _formKey = GlobalKey<FormState>();
   bool imageAvalible = false; // for chrome
-  // final ImagePicker _picker = ImagePicker(); // for android
-  // String imagepath = ''; // for android
-  // String base64string = ""; // for android
-  late Uint8List imageFile; // for chrome
-  // String imagefile = ''; // for run android
+  final ImagePicker _picker = ImagePicker(); // for android
+  String imagepath = ''; // for android
+  String base64string = ""; // for android
+  // late Uint8List imageFile; // for chrome
+  String imagefile = ''; // for run android
   Future openImage() async {
     try {
-      final image = await ImagePickerWeb.getImageAsBytes(); // for chrome
-      // var image =
-      //     await _picker.pickImage(source: ImageSource.gallery); // for android
+      // final image = await ImagePickerWeb.getImageAsBytes(); // for chrome
+      var image =
+          await _picker.pickImage(source: ImageSource.gallery); // for android
       if (image != null) {
-        setState(() {
-          imageFile = image;
-          imageAvalible = true;
-        }); // for chrome
+        // setState(() {
+        //   imageFile = image;
+        //   imageAvalible = true;
+        // }); // for chrome
 
-        // imagefile = image.path; // for android
-        // File imagefile2 = File(imagefile); // for android
-        // Uint8List imagebytes = await imagefile2.readAsBytes(); // for android
-        // base64string = base64.encode(imagebytes); // for androidr android
+        imagefile = image.path; // for android
+        File imagefile2 = File(imagefile); // for android
+        Uint8List imagebytes = await imagefile2.readAsBytes(); // for android
+        base64string = base64.encode(imagebytes); // for androidr android
 
       } else {
         // print("No image is selected.");
@@ -107,16 +108,17 @@ class _registerPageState extends State<registerPage> {
                     },
                     child: const Text("Open Image")),
                 imageAvalible
-                    ? Image.memory(
-                        (imageFile),
-                        fit: BoxFit.cover,
-                        height: 110,
-                      ) // for chrome
-                    // Image.file(
-                    //     File(imagefile),
+                    ?
+                    // Image.memory(
+                    //     (imageFile),
                     //     fit: BoxFit.cover,
                     //     height: 110,
-                    //   ) // for android
+                    //   ) // for chrome
+                    Image.file(
+                        File(imagefile),
+                        fit: BoxFit.cover,
+                        height: 110,
+                      ) // for android
                     : Container(child: const Text("No Image selected.")),
                 Container(
                   child: Form(
@@ -266,8 +268,8 @@ class _registerPageState extends State<registerPage> {
         .register(
             alamat: _alamatTextFieldController.text,
             nama: _namaTextFieldController.text,
-            foto: base64Encode(imageFile), // for chrome
-            // foto: base64string, // for android
+            // foto: base64Encode(imageFile), // for chrome
+            foto: base64string, // for android
             jenisKelamin: _gender,
             email: _emailTextFieldController.text,
             // role: _role.text,

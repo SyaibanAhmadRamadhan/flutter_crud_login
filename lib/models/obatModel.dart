@@ -62,6 +62,8 @@ class CreateObatModel {
       jenis: json['jenis'],
       dosis: json['dosis'],
       foto: json['foto'],
+      code: json['code'],
+      message: json['data'],
     );
   }
   factory CreateObatModel.success(Map<String, dynamic> json) {

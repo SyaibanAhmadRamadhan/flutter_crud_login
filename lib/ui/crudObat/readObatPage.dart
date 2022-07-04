@@ -162,7 +162,7 @@ class _readObatPageState extends State<readObatPage> {
                                                         "Data berhasil dihapus",
                                                     okClick: () {
                                                       Navigator.of(context)
-                                                          .push(
+                                                          .pushReplacement(
                                                         MaterialPageRoute(
                                                           builder: (context) =>
                                                               const readObatPage(),
