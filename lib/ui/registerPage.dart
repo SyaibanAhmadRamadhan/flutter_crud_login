@@ -37,10 +37,10 @@ class _registerPageState extends State<registerPage> {
     if (token != null) {
       setState(() {
         if (role == 'member') {
-          userPage();
+          const userPage();
         }
         if (role == 'admin') {
-          adminPage();
+          const adminPage();
         }
       });
     } else {
@@ -67,12 +67,13 @@ class _registerPageState extends State<registerPage> {
         //   imageFile = image;
         //   imageAvalible = true;
         // }); // for chrome
-
         imagefile = image.path; // for android
         File imagefile2 = File(imagefile); // for android
         Uint8List imagebytes = await imagefile2.readAsBytes(); // for android
-        base64string = base64.encode(imagebytes); // for androidr android
-
+        setState(() {
+          imageAvalible = true;
+          base64string = base64.encode(imagebytes); // for androidr android
+        });
       } else {
         // print("No image is selected.");
       }
