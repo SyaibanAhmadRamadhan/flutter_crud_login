@@ -2,9 +2,9 @@
 
 import 'dart:convert';
 
-import 'package:flutter_application_crud/api/Api.dart';
-import 'package:flutter_application_crud/api/apiUrl.dart';
-import 'package:flutter_application_crud/models/readUserModel.dart';
+import 'package:AKHIS/api/Api.dart';
+import 'package:AKHIS/api/apiUrl.dart';
+import 'package:AKHIS/models/ReadUpdateDeleteUserModel.dart';
 import 'package:http/http.dart' as http;
 
 class rudUserService {
@@ -13,14 +13,14 @@ class rudUserService {
     return _baseUrl;
   }
 
-  static Future<List<rudUserModel>> getUserService() async {
+  static Future<List<ReadUserModel>> GetReadUserService() async {
     try {
       final response = await http.get(Uri.parse(apiUrl.user));
       if (response.statusCode == 200) {
         var json = jsonDecode(response.body);
         final parsed = json = json.cast<Map<String, dynamic>>();
         return parsed
-            .map<rudUserModel>((json) => rudUserModel.fromJson(json))
+            .map<ReadUserModel>((json) => ReadUserModel.fromJson(json))
             .toList();
       } else {
         // throw Exception("gagal load data");
@@ -32,7 +32,7 @@ class rudUserService {
     }
   }
 
-  static Future updateUser({UserUpdate? user}) async {
+  static Future PutUpdateUserService({UserUpdateModel? user}) async {
     String api_Url = apiUrl.updateUser(user!.id!);
 
     var body = {
@@ -47,18 +47,18 @@ class rudUserService {
     var response = await Api().put(api_Url, body);
     var jsonObj = json.decode(response.body);
     if (jsonObj['code'] == 200) {
-      return UserUpdate.success(jsonObj);
+      return UserUpdateModel.success(jsonObj);
     } else {
-      return UserUpdate.error(jsonObj);
+      return UserUpdateModel.error(jsonObj);
     }
   }
 
-  static Future deleteuser(id) async {
+  static Future GetDeleteUserService(id) async {
     String api_Url = apiUrl.deleteUser(id);
     var response = await Api().delete(api_Url);
     var jsonObj = json.decode(response.body);
     return jsonObj['status'];
   }
 
-  void dispose() {}
+  // void dispose() {}
 }

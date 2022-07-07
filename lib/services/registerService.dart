@@ -1,12 +1,12 @@
 // ignore_for_file: file_names, camel_case_types, non_constant_identifier_names
 
 import 'dart:convert';
-import 'package:flutter_application_crud/api/Api.dart';
-import 'package:flutter_application_crud/api/apiUrl.dart';
-import 'package:flutter_application_crud/models/registerModel.dart';
+import 'package:AKHIS/api/Api.dart';
+import 'package:AKHIS/api/apiUrl.dart';
+import 'package:AKHIS/models/RegisterModel.dart';
 
-class registerService {
-  static Future<registerModel> register(
+class RegisterService {
+  static Future<RegisterModel> PostRegisterService(
       {String? nama,
       String? email,
       String? password,
@@ -28,9 +28,9 @@ class registerService {
     var response = await Api().post(api_url, body);
     var var_json = json.decode(response.body);
     if (var_json['code'] == 200) {
-      return registerModel.fromJson(var_json);
+      return RegisterModel.fromJson(var_json);
     } else {
-      return registerModel.error(var_json);
+      return RegisterModel.error(var_json);
     }
   }
 }

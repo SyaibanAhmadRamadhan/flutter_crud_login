@@ -2,8 +2,8 @@
 
 // import 'package:flutter/cupertino.dart';
 
-class loginModel {
-  loginModel({
+class LoginModel {
+  LoginModel({
     this.code,
     this.id,
     this.token,
@@ -21,8 +21,8 @@ class loginModel {
   bool? status;
   String? role;
 
-  factory loginModel.fromJson(Map<String, dynamic> json) {
-    return loginModel(
+  factory LoginModel.fromJson(Map<String, dynamic> json) {
+    return LoginModel(
       code: json['code'],
       status: json["status"],
       email: json["email"],
@@ -31,8 +31,8 @@ class loginModel {
       id: json["data"]["user"]["id"],
     );
   }
-  factory loginModel.error(Map<String, dynamic> json) {
-    return loginModel(
+  factory LoginModel.error(Map<String, dynamic> json) {
+    return LoginModel(
       code: json['code'],
       status: json['status'],
       message: json['data'],

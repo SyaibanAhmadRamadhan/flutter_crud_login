@@ -1,12 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-// import 'package:flutter_application_crud/models/loginModel.dart';
-import 'package:flutter_application_crud/services/userInfo.dart';
-import 'package:flutter_application_crud/ui/adminPage.dart';
-import 'package:flutter_application_crud/ui/crudObat/readObatPage.dart';
-import 'package:flutter_application_crud/ui/loginPage.dart';
-import 'package:flutter_application_crud/ui/userPage.dart';
+import 'package:AKHIS/services/UserSession.dart';
+import 'package:AKHIS/ui/LoginPage.dart';
+import 'package:AKHIS/ui/ProfileMemberPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,16 +27,10 @@ class _MyAppState extends State<MyApp> {
   }
 
   void isLogin() async {
-    var token = await UserInfo().getToken();
-    var role = await UserInfo().getRole();
+    var token = await UserSession().getToken();
     if (token != null) {
       setState(() {
-        if (role == 'member') {
-          page = userPage();
-        }
-        if (role == 'admin') {
-          page = adminPage();
-        }
+        page = ProfileMemberPage();
       });
     } else {
       setState(() {

@@ -1,6 +1,6 @@
 // ignore_for_file: camel_case_types, file_names
 
-class rudUserModel {
+class ReadUserModel {
   int id;
   String nama;
   String email;
@@ -12,7 +12,7 @@ class rudUserModel {
   bool? status;
   String? message;
 
-  rudUserModel({
+  ReadUserModel({
     required this.id,
     required this.nama,
     required this.email,
@@ -25,7 +25,7 @@ class rudUserModel {
     this.status,
   });
 
-  factory rudUserModel.fromJson(Map<String, dynamic> json) => rudUserModel(
+  factory ReadUserModel.fromJson(Map<String, dynamic> json) => ReadUserModel(
         id: json['id'],
         nama: json["nama"],
         email: json["email"],
@@ -36,7 +36,7 @@ class rudUserModel {
       );
 }
 
-class UserUpdate {
+class UserUpdateModel {
   int? id;
   int? code;
   String? nama;
@@ -47,7 +47,7 @@ class UserUpdate {
   String? foto;
   String? message;
 
-  UserUpdate(
+  UserUpdateModel(
       {this.id,
       this.code,
       this.nama,
@@ -58,8 +58,8 @@ class UserUpdate {
       this.foto,
       this.message});
 
-  factory UserUpdate.fromJson(Map<String, dynamic> json) {
-    return UserUpdate(
+  factory UserUpdateModel.fromJson(Map<String, dynamic> json) {
+    return UserUpdateModel(
       id: json['id'],
       nama: json['nama'],
       alamat: json['alamat'],
@@ -69,13 +69,13 @@ class UserUpdate {
       foto: json['foto'],
     );
   }
-  factory UserUpdate.success(Map<String, dynamic> json) {
-    return UserUpdate(
+  factory UserUpdateModel.success(Map<String, dynamic> json) {
+    return UserUpdateModel(
       code: json['code'],
     );
   }
-  factory UserUpdate.error(Map<String, dynamic> json) {
-    return UserUpdate(
+  factory UserUpdateModel.error(Map<String, dynamic> json) {
+    return UserUpdateModel(
       message: json['data'],
       code: json['code'],
     );

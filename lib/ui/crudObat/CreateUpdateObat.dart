@@ -4,23 +4,22 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_crud/models/obatModel.dart';
-import 'package:flutter_application_crud/services/obatServices.dart';
-import 'package:flutter_application_crud/ui/crudObat/readObatPage.dart';
-import 'package:flutter_application_crud/widgets/succesDialog.dart';
-import 'package:flutter_application_crud/widgets/warning_dialog.dart';
-// import 'package:image_picker/image_picker.dart'; // for android
-import 'package:image_picker_web/image_picker_web.dart'; // for chrome
+import 'package:AKHIS/models/ObatModel.dart';
+import 'package:AKHIS/services/ObatServices.dart';
+import 'package:AKHIS/ui/crudObat/ReadDeleteObatPage.dart';
+import 'package:AKHIS/widgets/SuksesDialog.dart';
+import 'package:AKHIS/widgets/WarningDialog.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 
-class createObatPage extends StatefulWidget {
-  final obatModel obat;
-  const createObatPage({Key? key, required this.obat}) : super(key: key);
+class CreateUpdateObatPage extends StatefulWidget {
+  final ReadObatModel obat;
+  const CreateUpdateObatPage({Key? key, required this.obat}) : super(key: key);
 
   @override
-  State<createObatPage> createState() => _createObatPageState();
+  State<CreateUpdateObatPage> createState() => _CreateUpdateObatPageState();
 }
 
-class _createObatPageState extends State<createObatPage> {
+class _CreateUpdateObatPageState extends State<CreateUpdateObatPage> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController nama = TextEditingController();
   TextEditingController jenis = TextEditingController();
@@ -28,32 +27,19 @@ class _createObatPageState extends State<createObatPage> {
   TextEditingController dosis = TextEditingController();
   int id = 0;
   bool _isUpdate = false;
-  bool imageAvalible = false; // for chrome
-  // final ImagePicker _picker = ImagePicker(); // for run android
+  bool imageAvalible = false;
   bool imageUpdate = false;
-  // Uint8List imagepath = Uint8List(0); // for run android
-  // String base64string = ''; // for run android for update
-  // String imagefile = ''; // for run android
-  late Uint8List imageFile = Uint8List(0); // for chrome
-  bool imagestatus = false; // for run android bagian update status
+  late Uint8List imageFile = Uint8List(0);
+  bool imagestatus = false;
 
   Future openImage() async {
     try {
-      // var pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-      final pickedFile = await ImagePickerWeb.getImageAsBytes(); // for chrome
+      final pickedFile = await ImagePickerWeb.getImageAsBytes();
       if (pickedFile != null) {
         setState(() {
           imageFile = pickedFile;
           imageAvalible = true;
-        }); // for chrome
-        // imagefile = pickedFile.path; // for android
-        // File imagefile2 = File(imagefile); // for android
-        // Uint8List imagebytes = await imagefile2.readAsBytes(); // for android
-        // setState(() {
-        //   base64string = base64.encode(imagebytes); // for android
-        //   imagepath = base64.decode(base64string); // for android
-        //   imagestatus = true; // for run android bagian update status
-        // });
+        });
       } else {}
     } catch (e) {
       return [];
@@ -68,7 +54,7 @@ class _createObatPageState extends State<createObatPage> {
       jenis = TextEditingController(text: widget.obat.jenis);
       dosis = TextEditingController(text: widget.obat.dosis);
       deskripsi = TextEditingController(text: widget.obat.deskripsi);
-      _isUpdate = true; // for android
+      _isUpdate = true;
       imageUpdate = true;
       imageFile = base64Decode(widget.obat.foto);
     }
@@ -112,8 +98,7 @@ class _createObatPageState extends State<createObatPage> {
                                       (imageFile),
                                       fit: BoxFit.cover,
                                       height: 110,
-                                    ) // for chrome
-                                          ))
+                                    )))
                                   : const Center(
                                       child: Text("masukansss gambar")))
                           : Flexible(
@@ -126,8 +111,7 @@ class _createObatPageState extends State<createObatPage> {
                                           (imageFile),
                                           fit: BoxFit.cover,
                                           height: 110,
-                                        ) // for chrome
-                                              ))
+                                        )))
                                       : const Center(
                                           child: Text("masukan gambar")))
                     ],
@@ -143,10 +127,11 @@ class _createObatPageState extends State<createObatPage> {
                         }
                         return null;
                       },
-                      decoration: const InputDecoration(
-                          icon: Icon(Icons.perm_identity),
-                          hintText: 'nama obat',
-                          labelText: 'nama obat'),
+                      decoration: InputDecoration(
+                          hintText: "nama obat",
+                          labelText: "nama obat",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0))),
                     )),
                 Padding(
                     padding: const EdgeInsets.all(5),
@@ -158,10 +143,11 @@ class _createObatPageState extends State<createObatPage> {
                         }
                         return null;
                       },
-                      decoration: const InputDecoration(
-                          icon: Icon(Icons.assignment_ind),
+                      decoration: InputDecoration(
                           hintText: 'jenis obat',
-                          labelText: 'jenis obat'),
+                          labelText: 'jenis obat',
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0))),
                     )),
                 Padding(
                     padding: const EdgeInsets.all(5),
@@ -173,8 +159,9 @@ class _createObatPageState extends State<createObatPage> {
                         }
                         return null;
                       },
-                      decoration: const InputDecoration(
-                          icon: Icon(Icons.perm_identity),
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0)),
                           hintText: 'dosis obat',
                           labelText: 'dosis obat'),
                     )),
@@ -188,12 +175,13 @@ class _createObatPageState extends State<createObatPage> {
                         }
                         return null;
                       },
-                      decoration: const InputDecoration(
-                          icon: Icon(Icons.perm_identity),
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0)),
                           hintText: 'deskripsi obat',
                           labelText: 'deskripsi obat'),
                     )),
-                const Divider(),
+                // const Divider(),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: 50.0,
@@ -219,28 +207,25 @@ class _createObatPageState extends State<createObatPage> {
   }
 
   update() {
-    // jika imagefile tidak ada munculkan dialog box
-    // setState(() {});
-    CreateObatModel createProduk = CreateObatModel(id: widget.obat.id);
+    CreateUpdateObatModel createProduk = CreateUpdateObatModel(id: widget.obat.id);
     createProduk.nama = nama.text;
     createProduk.jenis = jenis.text;
     createProduk.deskripsi = deskripsi.text;
     createProduk.dosis = dosis.text;
-
-    // createProduk.foto = base64Encode(imagepath); // for android
-
-    createProduk.foto = base64Encode(imageFile); // for chrom
-    obatService.updateProduk(obat: createProduk).then((value) {
+    createProduk.foto = base64Encode(imageFile);
+    ObatService.PutUpdateObatService(obat: createProduk).then((value) {
       if (value.code == 200) {
         showDialog(
           context: context,
           builder: (context) => SuccessDialog(
             description: "data obat berhasil diubah",
             okClick: () {
-              Navigator.of(context).push(
+              Navigator.pushAndRemoveUntil(
+                context,
                 MaterialPageRoute(
-                  builder: (BuildContext context) => const readObatPage(),
+                  builder: (BuildContext context) => const ReadDeleteObatPage(),
                 ),
+                (route) => false,
               );
             },
           ),
@@ -265,12 +250,9 @@ class _createObatPageState extends State<createObatPage> {
   submit() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      obatService
-          .createobatService
-          // (nama.text, deskripsi.text, jenis.text, dosis.text,
-          //     base64string) // for android
-          (nama.text, deskripsi.text, jenis.text, dosis.text,
-              base64Encode(imageFile)) // for chrome
+      ObatService
+          .PostCreateObatService(nama.text, deskripsi.text, jenis.text, dosis.text,
+              base64Encode(imageFile))
           .then(
         (value) async {
           if (value.code != 200) {
@@ -291,7 +273,7 @@ class _createObatPageState extends State<createObatPage> {
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => const readObatPage(),
+                      builder: (BuildContext context) => const ReadDeleteObatPage(),
                     ),
                     (route) => false,
                   );

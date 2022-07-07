@@ -2,7 +2,7 @@
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-class UserInfo {
+class UserSession {
   Future setToken(String value) async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
     return pref.setString("token", value);

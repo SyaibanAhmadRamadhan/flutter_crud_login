@@ -3,25 +3,22 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-// import 'package:flutter_masked_text2/flutter_masked_text2.dart';
-import 'package:flutter_application_crud/services/registerService.dart';
-import 'package:flutter_application_crud/services/userInfo.dart';
-import 'package:flutter_application_crud/ui/adminPage.dart';
-import 'package:flutter_application_crud/ui/loginPage.dart';
-import 'package:flutter_application_crud/ui/userPage.dart';
-import 'package:flutter_application_crud/widgets/succesDialog.dart';
-import 'package:flutter_application_crud/widgets/warning_dialog.dart';
-// import 'package:image_picker/image_picker.dart'; //for android
+import 'package:AKHIS/services/RegisterService.dart';
+import 'package:AKHIS/services/UserSession.dart';
+import 'package:AKHIS/ui/LoginPage.dart';
+import 'package:AKHIS/ui/ProfileMemberPage.dart';
+import 'package:AKHIS/widgets/SuksesDialog.dart';
+import 'package:AKHIS/widgets/WarningDialog.dart';
 import 'package:image_picker_web/image_picker_web.dart'; // for chrome
 
-class registerPage extends StatefulWidget {
-  const registerPage({Key? key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
-  State<registerPage> createState() => _registerPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _registerPageState extends State<registerPage> {
+class _RegisterPageState extends State<RegisterPage> {
   @override
   void initState() {
     super.initState();
@@ -29,51 +26,31 @@ class _registerPageState extends State<registerPage> {
   }
 
   void isLogin() async {
-    var token = await UserInfo().getToken();
-    var role = await UserInfo().getRole();
+    var token = await UserSession().getToken();
+    var role = await UserSession().getRole();
     if (token != null) {
       setState(() {
-        if (role == 'member') {
-          const userPage();
-        }
-        if (role == 'admin') {
-          const adminPage();
-        }
+        const ProfileMemberPage();
       });
     } else {
       setState(() {
-        const registerPage();
+        const RegisterPage();
       });
     }
   }
 
   final _formKey = GlobalKey<FormState>();
   bool imageAvalible = false; // for chrome
-  // final ImagePicker _picker = ImagePicker(); // for android
-  // String imagepath = ''; // for android
-  // String base64string = ""; // for android
   late Uint8List imageFile; // for chrome
-  // String imagefile = ''; // for run android
   Future openImage() async {
     try {
       final image = await ImagePickerWeb.getImageAsBytes(); // for chrome
-      // var image =
-      //     await _picker.pickImage(source: ImageSource.gallery); // for android
       if (image != null) {
         setState(() {
           imageFile = image;
           imageAvalible = true;
         }); // for chrome
-        // imagefile = image.path; // for android
-        // File imagefile2 = File(imagefile); // for android
-        // Uint8List imagebytes = await imagefile2.readAsBytes(); // for android
-        // setState(() {
-        //   imageAvalible = true;
-        //   base64string = base64.encode(imagebytes); // for androidr android
-        // });
-      } else {
-        // print("No image is selected.");
-      }
+      } else {}
     } catch (e) {
       return [];
     }
@@ -110,12 +87,7 @@ class _registerPageState extends State<registerPage> {
                         (imageFile),
                         fit: BoxFit.cover,
                         height: 110,
-                      ) // for chrome
-                    // Image.file(
-                    //     File(imagefile),
-                    //     fit: BoxFit.cover,
-                    //     height: 110,
-                    //   ) // for android
+                      )
                     : Container(child: const Text("No Image selected.")),
                 Container(
                   child: Form(
@@ -264,15 +236,13 @@ class _registerPageState extends State<registerPage> {
 
   void _submit() {
     _formKey.currentState!.save();
-    registerService
-        .register(
+    RegisterService
+        .PostRegisterService(
             alamat: _alamatTextFieldController.text,
             nama: _namaTextFieldController.text,
             foto: base64Encode(imageFile), // for chrome
-            // foto: base64string, // for android
             jenisKelamin: _gender,
             email: _emailTextFieldController.text,
-            // role: _role.text,
             password: _passwordTextFieldController.text.toString())
         .then(
       (value) async {

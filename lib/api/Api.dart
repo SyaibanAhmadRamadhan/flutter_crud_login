@@ -3,12 +3,12 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:http/http.dart' as http;
-import '../services/userInfo.dart';
+import '../services/UserSession.dart';
 import '../services/app_exception.dart';
 
 class Api {
   Future<dynamic> post(dynamic url, dynamic data) async {
-    var token = await UserInfo().getToken();
+    var token = await UserSession().getToken();
     // ignore: prefer_typing_uninitialized_variables
     var responseJson;
     try {
@@ -23,7 +23,7 @@ class Api {
   }
 
   Future<dynamic> put(dynamic url, dynamic data) async {
-    var token = await UserInfo().getToken();
+    var token = await UserSession().getToken();
     // ignore: prefer_typing_uninitialized_variables
     var responseJson;
     try {
@@ -39,7 +39,7 @@ class Api {
   }
 
   Future<dynamic> get(dynamic url) async {
-    var token = await UserInfo().getToken();
+    var token = await UserSession().getToken();
     // ignore: prefer_typing_uninitialized_variables
     var responseJson;
     try {
@@ -55,7 +55,7 @@ class Api {
   }
 
   Future<dynamic> delete(dynamic url) async {
-    var token = await UserInfo().getToken();
+    var token = await UserSession().getToken();
     // ignore: prefer_typing_uninitialized_variables
     var responseJson;
     try {

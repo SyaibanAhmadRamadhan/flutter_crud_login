@@ -1,13 +1,14 @@
-// ignore_for_file: file_names
+
+
+// ignore_for_file: file_names, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_crud/ui/adminPage.dart';
-import 'package:flutter_application_crud/ui/crudObat/readObatPage.dart';
-import 'package:flutter_application_crud/ui/obatPage.dart';
-import 'package:flutter_application_crud/ui/rudUser/readUserPage.dart';
-import 'package:flutter_application_crud/ui/userPage.dart';
+import 'package:AKHIS/ui/crudObat/ReadDeleteObatPage.dart';
+import 'package:AKHIS/ui/rudUser/ReadDeleteUserPage.dart';
+import 'package:AKHIS/ui/ProfileMemberPage.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-Widget bottomBar(index, BuildContext context) {
+Widget BottomBarAdmin(index, BuildContext context) {
   return BottomNavigationBar(
     type: BottomNavigationBarType.fixed,
     currentIndex: index,
@@ -17,7 +18,7 @@ Widget bottomBar(index, BuildContext context) {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (BuildContext context) => const readObatPage(),
+              builder: (BuildContext context) => const ReadDeleteObatPage(),
             ),
             (route) => false,
           );
@@ -26,7 +27,7 @@ Widget bottomBar(index, BuildContext context) {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (BuildContext context) => const adminPage(),
+              builder: (BuildContext context) => const ProfileMemberPage(),
             ),
             (route) => false,
           );
@@ -35,7 +36,7 @@ Widget bottomBar(index, BuildContext context) {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (BuildContext context) => const readUserPage(),
+              builder: (BuildContext context) => const ReadDeleteUserPage(),
             ),
             (route) => false,
           );
@@ -44,16 +45,17 @@ Widget bottomBar(index, BuildContext context) {
       }
     },
     items: const [
-      BottomNavigationBarItem(icon: Icon(Icons.home), label: 'obat'),
       BottomNavigationBarItem(
-          icon: Icon(Icons.supervised_user_circle), label: 'profile'),
+          icon: FaIcon(FontAwesomeIcons.pills), label: 'obat'),
+      BottomNavigationBarItem(
+          icon: FaIcon(FontAwesomeIcons.user), label: 'profile'),
       BottomNavigationBarItem(
           icon: Icon(Icons.supervised_user_circle), label: 'user')
     ],
   );
 }
 
-Widget bottomBarUser(index, BuildContext context) {
+Widget BottomBarUser(index, BuildContext context) {
   return BottomNavigationBar(
     type: BottomNavigationBarType.fixed,
     currentIndex: index,
@@ -63,7 +65,7 @@ Widget bottomBarUser(index, BuildContext context) {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (BuildContext context) => const obatPage(),
+              builder: (BuildContext context) => const ReadDeleteObatPage(),
             ),
             (route) => false,
           );
@@ -72,7 +74,7 @@ Widget bottomBarUser(index, BuildContext context) {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (BuildContext context) => const userPage(),
+              builder: (BuildContext context) => const ProfileMemberPage(),
             ),
             (route) => false,
           );
@@ -81,9 +83,10 @@ Widget bottomBarUser(index, BuildContext context) {
       }
     },
     items: const [
-      BottomNavigationBarItem(icon: Icon(Icons.home), label: 'obat'),
       BottomNavigationBarItem(
-          icon: Icon(Icons.supervised_user_circle), label: 'profile'),
+          icon: FaIcon(FontAwesomeIcons.pills), label: 'obat'),
+      BottomNavigationBarItem(
+          icon: FaIcon(FontAwesomeIcons.user), label: 'profile'),
     ],
   );
 }

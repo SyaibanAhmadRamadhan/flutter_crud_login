@@ -1,13 +1,12 @@
 // ignore_for_file: file_names, unused_import, use_build_context_synchronously, prefer_const_constructors, unnecessary_new, import_of_legacy_library_into_null_safe, deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_crud/services/loginServices.dart';
-import 'package:flutter_application_crud/services/userInfo.dart';
-import 'package:flutter_application_crud/ui/adminPage.dart';
-import 'package:flutter_application_crud/ui/crudObat/readObatPage.dart';
-import 'package:flutter_application_crud/ui/registerPage.dart';
-import 'package:flutter_application_crud/ui/userPage.dart';
-import 'package:flutter_application_crud/widgets/warning_dialog.dart';
+import 'package:AKHIS/services/LoginServices.dart';
+import 'package:AKHIS/services/UserSession.dart';
+import 'package:AKHIS/ui/crudObat/ReadDeleteObatPage.dart';
+import 'package:AKHIS/ui/RegisterPage.dart';
+import 'package:AKHIS/ui/ProfileMemberPage.dart';
+import 'package:AKHIS/widgets/WarningDialog.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -97,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                                   Navigator.of(context).push(
                                       new MaterialPageRoute(
                                           builder: (context) =>
-                                              const registerPage()));
+                                              const RegisterPage()));
                                 },
                                 child: const Text(
                                   "Register",
@@ -126,8 +125,8 @@ class _LoginPageState extends State<LoginPage> {
   void _submit() {
     _formKey.currentState!.save();
     setState(() {});
-    loginService
-        .login(
+    LoginService
+        .PostLoginService(
             email: _emailTextboxController.text,
             password: _passwordTextboxController.text.toString())
         .then(
@@ -141,25 +140,15 @@ class _LoginPageState extends State<LoginPage> {
             ),
           );
         } else {
-          await UserInfo().setRole(value.role.toString());
-          await UserInfo().setToken(value.token.toString());
-          await UserInfo().setUserID(value.id!);
-          if (value.role == 'member') {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const userPage(),
-              ),
-            );
-          }
-          if (value.role == 'admin') {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => adminPage(),
-              ),
-            );
-          }
+          await UserSession().setRole(value.role.toString());
+          await UserSession().setToken(value.token.toString());
+          await UserSession().setUserID(value.id!);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ProfileMemberPage(),
+            ),
+          );
         }
       },
       onError: (error) {

@@ -2,8 +2,8 @@
 
 // import 'dart:ffi';
 
-class obatModel {
-  obatModel({
+class ReadObatModel {
+  ReadObatModel({
     required this.id,
     required this.nama,
     required this.jenis,
@@ -23,7 +23,7 @@ class obatModel {
   String createdAt;
   String updatedAt;
 
-  factory obatModel.fromJson(Map<String, dynamic> json) => obatModel(
+  factory ReadObatModel.fromJson(Map<String, dynamic> json) => ReadObatModel(
         id: json["id"],
         nama: json["nama"].toString(),
         jenis: json["jenis"].toString(),
@@ -35,7 +35,7 @@ class obatModel {
       );
 }
 
-class CreateObatModel {
+class CreateUpdateObatModel {
   int? id;
   int? code;
   String? nama;
@@ -44,7 +44,7 @@ class CreateObatModel {
   String? foto;
   String? dosis;
   String? message;
-  CreateObatModel(
+  CreateUpdateObatModel(
       {this.id,
       this.code,
       this.nama,
@@ -54,8 +54,8 @@ class CreateObatModel {
       this.foto,
       this.message});
 
-  factory CreateObatModel.fromJson(Map<String, dynamic> json) {
-    return CreateObatModel(
+  factory CreateUpdateObatModel.fromJson(Map<String, dynamic> json) {
+    return CreateUpdateObatModel(
       id: json['id'],
       nama: json['nama'],
       deskripsi: json['deskripsi'],
@@ -66,13 +66,13 @@ class CreateObatModel {
       message: json['data'],
     );
   }
-  factory CreateObatModel.success(Map<String, dynamic> json) {
-    return CreateObatModel(
+  factory CreateUpdateObatModel.success(Map<String, dynamic> json) {
+    return CreateUpdateObatModel(
       code: json['code'],
     );
   }
-  factory CreateObatModel.error(Map<String, dynamic> json) {
-    return CreateObatModel(
+  factory CreateUpdateObatModel.error(Map<String, dynamic> json) {
+    return CreateUpdateObatModel(
       message: json['data'],
       code: json['code'],
     );

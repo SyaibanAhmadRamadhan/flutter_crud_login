@@ -1,26 +1,26 @@
-// ignore_for_file: file_names, unrelated_type_equality_checks
+// ignore_for_file: file_names, unrelated_type_equality_checks, deprecated_member_use
 
 import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_crud/models/readUserModel.dart';
-import 'package:flutter_application_crud/services/readUserService.dart';
-import 'package:flutter_application_crud/ui/rudUser/readUserPage.dart';
-import 'package:flutter_application_crud/widgets/succesDialog.dart';
-import 'package:flutter_application_crud/widgets/warning_dialog.dart';
-// import 'package:image_picker/image_picker.dart'; // for android
+import 'package:AKHIS/models/ReadUpdateDeleteUserModel.dart';
+import 'package:AKHIS/services/ReadUpdateDeleteUserService.dart';
+import 'package:AKHIS/ui/rudUser/ReadDeleteUserPage.dart';
+import 'package:AKHIS/widgets/SuksesDialog.dart';
+import 'package:AKHIS/widgets/WarningDialog.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker_web/image_picker_web.dart'; // for chrome
 
-class UpdateDeleteUser extends StatefulWidget {
-  final rudUserModel user;
-  const UpdateDeleteUser({Key? key, required this.user}) : super(key: key);
+class UpdateUserPage extends StatefulWidget {
+  final ReadUserModel user;
+  const UpdateUserPage({Key? key, required this.user}) : super(key: key);
 
   @override
-  State<UpdateDeleteUser> createState() => _UpdateDeleteUserState();
+  State<UpdateUserPage> createState() => _UpdateUserPageState();
 }
 
-class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
+class _UpdateUserPageState extends State<UpdateUserPage> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController nama = TextEditingController();
   TextEditingController email = TextEditingController();
@@ -28,32 +28,17 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
   TextEditingController alamat = TextEditingController();
   TextEditingController role = TextEditingController();
   int id = 0;
-  // final ImagePicker _picker = ImagePicker(); // for android
-  bool imageUpdate = false; // for android
-  late Uint8List imageFile; // for chrome
-  // late Uint8List imagepath; // for android
-  // String base64string = ''; // for android
-  // String imagefile = ''; // for android
+  bool imageUpdate = false;
+  late Uint8List imageFile;
   late String _role = 'member';
   late String _gender = 'pria';
   Future openImage() async {
     try {
-      // var pickedFile =
-      // await _picker.pickImage(source: ImageSource.gallery); // for android
       final pickedFile = await ImagePickerWeb.getImageAsBytes(); // for chrome
       if (pickedFile != null) {
         setState(() {
           imageFile = pickedFile;
-        }); // for chrome
-
-        // imagefile = pickedFile.path; // for android
-        // File imagefile2 = File(imagefile); // for android
-        // Uint8List imagebytes = await imagefile2.readAsBytes(); // for android
-        // setState(() {
-        //   base64string = base64.encode(imagebytes); // for android
-        //   imagepath = base64.decode(base64string); // for android
-        //   // imagestatus = true; // for run android bagian update status
-        // });
+        });
       }
     } catch (e) {
       return [];
@@ -70,7 +55,6 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
       _role = widget.user.role;
       alamat = TextEditingController(text: widget.user.alamat);
       imageFile = base64Decode(widget.user.foto); // for chrome
-      // imagepath = base64Decode(widget.user.foto); // for android
     }
     super.initState();
   }
@@ -111,8 +95,7 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
                                   (imageFile),
                                   fit: BoxFit.cover,
                                   height: 110,
-                                ) // for chrome
-                                      ))
+                                )))
                               : const Center(child: Text("masukan gambar")))
                     ],
                   ),
@@ -127,8 +110,9 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
                         }
                         return null;
                       },
-                      decoration: const InputDecoration(
-                          icon: Icon(Icons.perm_identity),
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0)),
                           hintText: 'nama user',
                           labelText: 'nama user'),
                     )),
@@ -142,8 +126,9 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
                         }
                         return null;
                       },
-                      decoration: const InputDecoration(
-                          icon: Icon(Icons.assignment_ind),
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0)),
                           hintText: 'email user',
                           labelText: 'email user'),
                     )),
@@ -157,8 +142,9 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
                         }
                         return null;
                       },
-                      decoration: const InputDecoration(
-                          icon: Icon(Icons.perm_identity),
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0)),
                           hintText: 'alamat user',
                           labelText: 'alamat user'),
                     )),
@@ -167,7 +153,7 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      const Icon(Icons.generating_tokens_sharp),
+                      const Icon(FontAwesomeIcons.male),
                       Radio(
                           value: 'pria',
                           groupValue: _gender,
@@ -194,7 +180,7 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      const Icon(Icons.visibility),
+                      const Icon(FontAwesomeIcons.userGroup),
                       Radio(
                           value: 'admin',
                           groupValue: _role,
@@ -241,7 +227,7 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
   update() {
     // jika imagefile tidak ada munculkan dialog box
     setState(() {});
-    UserUpdate createProduk = UserUpdate(id: widget.user.id);
+    UserUpdateModel createProduk = UserUpdateModel(id: widget.user.id);
     createProduk.nama = nama.text;
     createProduk.email = email.text;
     createProduk.jenisKelamin = _gender;
@@ -249,7 +235,7 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
     createProduk.alamat = alamat.text;
     // createProduk.foto = base64string; // for android
     createProduk.foto = base64Encode(imageFile); // for chrome
-    rudUserService.updateUser(user: createProduk).then((value) {
+    rudUserService.PutUpdateUserService(user: createProduk).then((value) {
       if (value.code == 200) {
         showDialog(
           context: context,
@@ -259,7 +245,7 @@ class _UpdateDeleteUserState extends State<UpdateDeleteUser> {
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
-                  builder: (BuildContext context) => const readUserPage(),
+                  builder: (BuildContext context) => const ReadDeleteUserPage(),
                 ),
                 (route) => false,
               );

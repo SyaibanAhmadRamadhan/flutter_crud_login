@@ -2,8 +2,8 @@
 
 import 'dart:convert';
 
-import 'package:flutter_application_crud/api/Api.dart';
-import 'package:flutter_application_crud/models/userModel.dart';
+import 'package:AKHIS/api/Api.dart';
+import 'package:AKHIS/models/ProfileMemberModel.dart';
 import '../api/apiUrl.dart';
 
 class userService {
@@ -11,11 +11,11 @@ class userService {
   get length => null;
   get userStream => null;
 
-  static Future<userModel> getUserDetail(int id) async {
+  static Future<ProfileMemberModel> GetReadUserDetail(int id) async {
     String api_Url = apiUrl.getUserDetail(id);
     var response = await Api().get(api_Url);
     var varjson = json.decode(response.body);
-    userModel user = userModel.fromJson(varjson);
+    ProfileMemberModel user = ProfileMemberModel.fromJson(varjson);
     return user;
   }
 }

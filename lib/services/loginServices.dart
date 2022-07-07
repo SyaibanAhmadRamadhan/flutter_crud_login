@@ -1,20 +1,21 @@
 // ignore_for_file: file_names, camel_case_types, non_constant_identifier_names
 
 import 'dart:convert';
-import 'package:flutter_application_crud/models/loginModel.dart';
-import 'package:flutter_application_crud/api/Api.dart';
-import 'package:flutter_application_crud/api/apiUrl.dart';
+import 'package:AKHIS/models/LoginModel.dart';
+import 'package:AKHIS/api/Api.dart';
+import 'package:AKHIS/api/apiUrl.dart';
 
-class loginService {
-  static Future<loginModel> login({String? email, String? password}) async {
+class LoginService {
+  static Future<LoginModel> PostLoginService(
+      {String? email, String? password}) async {
     String ApiUrl = apiUrl.login;
     var body = {'email': email, 'password': password};
     var response = await Api().post(ApiUrl, body);
     var jsonVar = json.decode(response.body);
     if (jsonVar['code'] == 200) {
-      return loginModel.fromJson(jsonVar);
+      return LoginModel.fromJson(jsonVar);
     } else {
-      return loginModel.error(jsonVar);
+      return LoginModel.error(jsonVar);
     }
   }
 }

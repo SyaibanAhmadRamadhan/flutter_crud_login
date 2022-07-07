@@ -2,27 +2,24 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_crud/models/readUserModel.dart';
-import 'package:flutter_application_crud/models/userModel.dart';
-import 'package:flutter_application_crud/services/readUserService.dart';
-import 'package:flutter_application_crud/services/userInfo.dart';
-import 'package:flutter_application_crud/ui/rudUser/detailUserPage.dart';
-import 'package:flutter_application_crud/ui/rudUser/searchUserPage.dart';
-import 'package:flutter_application_crud/services/userService.dart';
-import 'package:flutter_application_crud/ui/rudUser/udUser.dart';
-import 'package:flutter_application_crud/widgets/bottomBar.dart';
-import 'package:flutter_application_crud/widgets/succesDialog.dart';
+import 'package:AKHIS/models/ReadUpdateDeleteUserModel.dart';
+import 'package:AKHIS/services/ReadUpdateDeleteUserService.dart';
+import 'package:AKHIS/ui/DetailUserPage.dart';
+import 'package:AKHIS/ui/SearchUserPage.dart';
+import 'package:AKHIS/ui/rudUser/UpdateUserPage.dart';
+import 'package:AKHIS/widgets/BottomBar.dart';
+import 'package:AKHIS/widgets/SuksesDialog.dart';
 
-class readUserPage extends StatefulWidget {
-  const readUserPage({Key? key}) : super(key: key);
+class ReadDeleteUserPage extends StatefulWidget {
+  const ReadDeleteUserPage({Key? key}) : super(key: key);
 
   @override
-  State<readUserPage> createState() => _readUserPageState();
+  State<ReadDeleteUserPage> createState() => _ReadDeleteUserPageState();
 }
 
-class _readUserPageState extends State<readUserPage> {
+class _ReadDeleteUserPageState extends State<ReadDeleteUserPage> {
   bool isSearching = false;
-  TextEditingController searchText = TextEditingController();
+  TextEditingController user = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,15 +31,16 @@ class _readUserPageState extends State<readUserPage> {
                   style: TextStyle(color: Colors.black, fontSize: 26),
                 )
               : TextField(
-                  controller: searchText,
+                  controller: user,
                   style: const TextStyle(color: Colors.black, fontSize: 26),
                   decoration: const InputDecoration(
                       hintText: "Pencarian",
                       hintStyle: TextStyle(color: Colors.grey)),
                   onSubmitted: (value) {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            SearchUserPage(keyword: searchText.text)));
+                        builder: (context) => SearchUserPage(
+                              user: user.text,
+                            )));
                   },
                 ),
           backgroundColor: Colors.blue.shade200,
@@ -65,15 +63,15 @@ class _readUserPageState extends State<readUserPage> {
                       )),
           ],
         ),
-        body: FutureBuilder<List<rudUserModel>>(
-          future: rudUserService.getUserService(),
+        body: FutureBuilder<List<ReadUserModel>>(
+          future: rudUserService.GetReadUserService(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
             } else {
-              List<rudUserModel> listUser = snapshot.data!;
+              List<ReadUserModel> listUser = snapshot.data!;
               return Container(
                 padding: const EdgeInsets.all(5),
                 child: ListView.builder(
@@ -124,7 +122,7 @@ class _readUserPageState extends State<readUserPage> {
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
                                               builder: (BuildContext context) =>
-                                                  UpdateDeleteUser(
+                                                  UpdateUserPage(
                                                     user: listUser[index],
                                                   )));
                                     },
@@ -139,7 +137,7 @@ class _readUserPageState extends State<readUserPage> {
                                   GestureDetector(
                                     onTap: () {
                                       rudUserService
-                                          .deleteuser(listUser[index].id)
+                                          .GetDeleteUserService(listUser[index].id)
                                           .then((value) => {
                                                 showDialog(
                                                   context: context,
@@ -156,7 +154,7 @@ class _readUserPageState extends State<readUserPage> {
                                                         MaterialPageRoute(
                                                           builder: (BuildContext
                                                                   context) =>
-                                                              const readUserPage(),
+                                                              const ReadDeleteUserPage(),
                                                         ),
                                                         (route) => false,
                                                       );
@@ -183,6 +181,6 @@ class _readUserPageState extends State<readUserPage> {
             }
           },
         ),
-        bottomNavigationBar: bottomBar(2, context));
+        bottomNavigationBar: BottomBarAdmin(2, context));
   }
 }

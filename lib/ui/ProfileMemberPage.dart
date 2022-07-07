@@ -3,42 +3,55 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_crud/models/userModel.dart';
-import 'package:flutter_application_crud/services/userInfo.dart';
-import 'package:flutter_application_crud/services/userService.dart';
-import 'package:flutter_application_crud/ui/loginPage.dart';
-import 'package:flutter_application_crud/widgets/bottomBar.dart';
+import 'package:AKHIS/models/ProfileMemberModel.dart';
+import 'package:AKHIS/services/UserSession.dart';
+import 'package:AKHIS/services/ProfileMemberService.dart';
+import 'package:AKHIS/ui/LoginPage.dart';
+import 'package:AKHIS/widgets/BottomBar.dart';
 
-class userPage extends StatefulWidget {
-  const userPage({Key? key}) : super(key: key);
+class ProfileMemberPage extends StatefulWidget {
+  const ProfileMemberPage({Key? key}) : super(key: key);
 
   @override
-  State<userPage> createState() => _userPageState();
+  State<ProfileMemberPage> createState() => _ProfileMemberPageState();
 }
 
-class _userPageState extends State<userPage> {
+class _ProfileMemberPageState extends State<ProfileMemberPage> {
   Widget page = const CircularProgressIndicator();
-  String roleUser = 'member';
+  // String roleUser = 'member';
+  bool role = false;
   late int id;
   @override
   void initState() {
     super.initState();
     user();
+    roleUser();
     isLoginuser();
   }
 
+  void roleUser() async {
+    var getRole = await UserSession().getRole();
+    setState(() {
+      if (getRole == 'admin') {
+        role = true;
+      } else {
+        role = false;
+      }
+    });
+  }
+
   void user() async {
-    var userid = await UserInfo().getUserID();
+    var userid = await UserSession().getUserID();
     setState(() {
       id = userid!;
     });
   }
 
   void isLoginuser() async {
-    var token = await UserInfo().getToken();
+    var token = await UserSession().getToken();
     if (token != null) {
       setState(() {
-        page = const userPage();
+        page = const ProfileMemberPage();
       });
     } else {
       setState(() {
@@ -54,8 +67,8 @@ class _userPageState extends State<userPage> {
           margin: const EdgeInsets.all(16),
           child: Container(
             alignment: Alignment.center,
-            child: FutureBuilder<userModel>(
-                future: userService.getUserDetail(id),
+            child: FutureBuilder<ProfileMemberModel>(
+                future: userService.GetReadUserDetail(id),
                 builder: (context, snapshot) {
                   return snapshot.hasData
                       ? MyProfile(
@@ -67,12 +80,13 @@ class _userPageState extends State<userPage> {
                 }),
           ),
         ),
-        bottomNavigationBar: bottomBarUser(1, context));
+        bottomNavigationBar:
+            role ? BottomBarAdmin(1, context) : BottomBarUser(1, context));
   }
 }
 
 class MyProfile extends StatelessWidget {
-  final userModel? data;
+  final ProfileMemberModel? data;
 
   const MyProfile({Key? key, this.data}) : super(key: key);
 
@@ -88,6 +102,7 @@ class MyProfile extends StatelessWidget {
               Image.memory(
                 base64Decode("${data?.foto}"),
                 fit: BoxFit.cover,
+                height: 180,
               ),
               const SizedBox(height: 20),
               Text(
@@ -127,7 +142,7 @@ class MyProfile extends StatelessWidget {
                 // color: Colors.blue,
                 child: const Text('LOG OUT'),
                 onPressed: () async {
-                  await UserInfo().logout();
+                  await UserSession().logout();
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(

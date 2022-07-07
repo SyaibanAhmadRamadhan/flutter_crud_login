@@ -1,6 +1,6 @@
 // ignore_for_file: camel_case_types, file_names
 
-class userModel {
+class ProfileMemberModel {
   int? code;
   String? id;
   String? nama;
@@ -10,7 +10,7 @@ class userModel {
   String? foto;
   String? jenisKelamin;
   String? password;
-  userModel({
+  ProfileMemberModel({
     this.code,
     this.id,
     this.email,
@@ -22,8 +22,8 @@ class userModel {
     this.password,
   });
 
-  factory userModel.fromJson(Map<String, dynamic> json) {
-    return userModel(
+  factory ProfileMemberModel.fromJson(Map<String, dynamic> json) {
+    return ProfileMemberModel(
         code: json['code'],
         email: json['data']['email'],
         nama: json['data']['nama'],

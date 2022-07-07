@@ -3,21 +3,21 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_crud/models/readUserModel.dart';
+import 'package:AKHIS/models/ObatModel.dart';
 
-class DetailUserPage extends StatefulWidget {
-  const DetailUserPage({Key? key, required this.user}) : super(key: key);
-  final rudUserModel user;
+class DetailObatPage extends StatefulWidget {
+  const DetailObatPage({Key? key, required this.obat}) : super(key: key);
+  final ReadObatModel obat;
   @override
-  State<DetailUserPage> createState() => DdetailUserPageState();
+  State<DetailObatPage> createState() => _DetailObatPageState();
 }
 
-class DdetailUserPageState extends State<DetailUserPage> {
+class _DetailObatPageState extends State<DetailObatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.user.nama),
+          title: Text(widget.obat.nama),
           elevation: 0,
           iconTheme: const IconThemeData(color: Colors.black),
         ),
@@ -35,38 +35,32 @@ class DdetailUserPageState extends State<DetailUserPage> {
                       alignment: Alignment.center,
                       margin: const EdgeInsets.symmetric(vertical: 20),
                       child: Image.memory(
-                        base64Decode(widget.user.foto),
+                        base64Decode(widget.obat.foto),
                         height: 200,
                         fit: BoxFit.cover,
                       ),
                     ),
                     Center(
                       child: Text(
-                        "email user : ${widget.user.email}",
+                        "nama obat : ${widget.obat.nama}",
                         style: const TextStyle(fontSize: 25),
                       ),
                     ),
                     Center(
                       child: Text(
-                        "nama user : ${widget.user.nama}",
+                        "jenis obat : ${widget.obat.jenis}",
                         style: const TextStyle(fontSize: 17),
                       ),
                     ),
                     Center(
                       child: Text(
-                        "role user : ${widget.user.role}",
+                        "dosis obat : ${widget.obat.dosis}",
                         style: const TextStyle(fontSize: 17),
                       ),
                     ),
                     Center(
                       child: Text(
-                        "jenisKelamin user : ${widget.user.jenisKelamin}",
-                        style: const TextStyle(fontSize: 17),
-                      ),
-                    ),
-                    Center(
-                      child: Text(
-                        "alamat user : ${widget.user.alamat}",
+                        "deskripsi obat : ${widget.obat.deskripsi}",
                         style: const TextStyle(fontSize: 17),
                       ),
                     ),

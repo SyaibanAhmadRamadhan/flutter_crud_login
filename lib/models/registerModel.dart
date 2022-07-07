@@ -1,18 +1,18 @@
 // ignore_for_file: camel_case_types, file_names
 
-class registerModel {
+class RegisterModel {
   int? code;
   bool? status;
   String? message;
-  registerModel({this.code, this.status, this.message});
+  RegisterModel({this.code, this.status, this.message});
 
-  factory registerModel.fromJson(Map<String, dynamic> json) {
-    return registerModel(
+  factory RegisterModel.fromJson(Map<String, dynamic> json) {
+    return RegisterModel(
         code: json['code'], status: json['status'], message: json['data']);
   }
 
-  factory registerModel.error(Map<String, dynamic> json) {
-    return registerModel(
+  factory RegisterModel.error(Map<String, dynamic> json) {
+    return RegisterModel(
       code: json['code'],
       status: json['status'],
       message: json['data'],
